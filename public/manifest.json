@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "WICARA.ID",
+  "name": "Motivational Speech Marketplace",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "wicara-initital.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
