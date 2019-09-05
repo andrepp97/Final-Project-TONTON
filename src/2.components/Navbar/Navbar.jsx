@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux"
+import { userLogout } from '../../redux/1.actions'
 import { Link } from 'react-router-dom'
+import Cookie from "universal-cookie"
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse,
     MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBCardText, MDBIcon
 } from "mdbreact";
 import Logo from '../../img/wicara-logo.png'
 import '../../App.css'
+
+let cookieObj = new Cookie()
 
 
 class AppBar extends Component {
@@ -17,6 +21,12 @@ class AppBar extends Component {
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
     }
+
+    onLogout = () => {
+        cookieObj.remove('userData')
+        this.props.userLogout()
+    }
+
 
     render() {
         return (
@@ -107,4 +117,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(AppBar)
+export default connect(mapStateToProps, {userLogout})(AppBar)

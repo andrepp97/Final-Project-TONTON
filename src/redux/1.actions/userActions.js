@@ -37,7 +37,73 @@ export const userLogin = (userObject) => {
                 dispatch({
                     type: 'NOT_LOADING'
                 })
-                swal('System Error!', "Unable to connect to server, try again later.", "error")
+                swal('System Error', "Unable to connect to server, try again later.", "error")
             })
+    }
+}
+
+
+export const userSignup = (signupObject) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'IS_LOADING'
+        })
+
+        // GET the duplicate username
+        Axios.get(urlApi + 'users', {
+                params: {
+                    username: signupObject.username
+                }
+            })
+            .then((res) => {
+                if (res.data.length > 0) {
+                    dispatch({
+                        type: 'NOT_LOADING'
+                    })
+                    swal('Register Failed!', 'Username already taken', 'warning')
+                } else {
+                    Axios.post(urlApi + 'users', signupObject)
+                        .then((res) => {
+                            dispatch({
+                                type: 'LOGIN_SUCCESS',
+                                payload: {
+                                    username: res.data.username,
+                                    email: res.data.email,
+                                    password: res.data.passwword,
+                                    role: res.data.role,
+                                    id: res.data.id
+                                }
+                            })
+                            var contentBro = document.createElement('div');
+                            contentBro.innerHTML = 'You can now login as <strong>' + res.data.username + '<strong>'
+                            swal({
+                                title: 'Register Success!',
+                                content: contentBro,
+                                icon: "success"
+                            })
+                        })
+                        .catch((err) => {
+                            dispatch({
+                                type: 'NOT_LOADING'
+                            })
+                            swal('System Error', "Unable to connect to server, try again later.", "error")
+                        })
+                }
+            })
+            .catch((err) => {
+                dispatch({
+                    type: 'NOT_LOADING'
+                })
+                swal('System Error', "Unable to connect to server, try again later.", "error")
+            })
+    }
+}
+
+
+export const userLogout = () => {
+    return (dispatch) => {
+        dispatch({
+            type: 'LOGOUT'
+        })
     }
 }

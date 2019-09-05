@@ -95,9 +95,25 @@ class Login extends Component {
                             <p style={{ marginLeft: '2rem' }} className='text-danger font-small mt-n3'>{this.state.passError}</p>
                         </div>
                     </div>
-                    <MDBBtn color='indigo' className='white-text mb-5 mt-4 mx-5 font-weight-bold' onClick={this.onLogin} style={{ letterSpacing:'2px' }}>
-                        Login
-                    </MDBBtn>
+                    {
+                        this.props.loading
+                        ?
+                            <div className='d-flex justify-content-center my-3'>
+                                <div class="spinner-grow text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-success" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="spinner-grow text-info" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        :
+                            <MDBBtn color='indigo' className='white-text mb-5 mt-4 mx-5 font-weight-bold' onClick={this.onLogin} style={{ letterSpacing:'2px' }}>
+                                Login
+                            </MDBBtn>
+                    }
                 </div>
             </div>
         )
