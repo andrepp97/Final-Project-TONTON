@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, Route, Switch } from "react-router-dom";
+// import {connect} from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // IMPORT PAGES
@@ -13,7 +14,7 @@ import Footer from './2.components/Footer/Footer';
 class App extends Component {
   render() {
     return (
-      <div style={{background:'#e5e5e5'}}>
+      <div style={{background:'whitesmoke'}}>
         <Navbar/>
           <Switch>
             <Route component={Home} path='/' exact />
