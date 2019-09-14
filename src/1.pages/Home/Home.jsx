@@ -1,14 +1,37 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import Jumbotron from '../../2.components/Jumbotron/Jumbotron'
+import Carousel from '../../2.components/Carousel/Carousel'
+import { MDBBadge } from 'mdbreact'
+
 
 class Home extends Component {
     render() {
         return (
-            <div className='container'>
-                <div className='my-5'>&nbsp;</div>
-                <h2 className='text-center my-5 card'>INI HOMEPAGE BRO</h2>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore consequatur aspernatur magnam? Nobis laborum molestiae, numquam minus animi in tempore doloribus tenetur, culpa recusandae voluptatem iste aut laudantium voluptatum placeat!</p>
-                <h3 className='my-5'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem optio hic officia ad ipsam odio obcaecati nisi aspernatur provident unde ut culpa aliquid numquam et eos, veritatis consequatur quasi excepturi!</h3>
-                <h1 className='my-5'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, at nam veniam velit, quod temporibus sit iure dolore placeat quaerat nihil, nobis eius ratione! Consectetur accusantium deleniti pariatur? Sapiente, libero.</h1>
+            <div className='page'>
+                <Jumbotron />
+
+                {/* Popular Section */}
+                <div className="container-fluid mt-4 mb-n1">
+                    <h4 className='ml-4'>
+                        Popular &nbsp;
+                        <Link to='/' className='font-small text-decoration-none'>
+                            <MDBBadge color='deep-purple'>See More</MDBBadge>
+                        </Link>
+                    </h4>
+                </div>
+                <Carousel />
+
+                {/* Masih Belom Tau Section */}
+                <div className="container-fluid mt-4 mb-n1">
+                    <h4 className='ml-4'>
+                        New on TONTON &nbsp;
+                        <Link to='/' className='font-small text-decoration-none'>
+                            <MDBBadge color='deep-purple'>See More</MDBBadge>
+                        </Link>
+                    </h4>
+                </div>
+                <Carousel />
             </div>
         )
     }

@@ -2,10 +2,14 @@ import React, { Component } from 'react'
 import loginImg from '../../img/illustrations/login.svg'
 import { MDBInput, MDBBtn } from 'mdbreact'
 import { connect } from "react-redux"
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 // Import Global Functions
 import { userLogin } from '../../redux/1.actions'
+
+// Cookie
+import Cookie from 'universal-cookie'
+let cookieObj = new Cookie()
 
 
 class Login extends Component {
@@ -14,6 +18,10 @@ class Login extends Component {
         pass: '',
         nameError: '',
         passError: ''
+    }
+
+    componentWillReceiveProps(newProps) {
+        cookieObj.set('userData', newProps.username, { path: '/' })
     }
 
     validateInput = () => {
@@ -78,43 +86,60 @@ class Login extends Component {
         }
 
         return (
-            <div className='container'>
-                <div className='my-5'>&nbsp;</div>
-                <span>&nbsp;</span>
-                <div className="my-5 card col-md-6 offset-md-3 ">
-                    <img src={loginImg} alt="login-illustration" height='150px' className='mt-n5' />
-                    <div className="row">
-                        <div className="col-md-10 offset-md-1">
-                            <MDBInput outline icon="user" type='text' label='Username' value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })}></MDBInput>
-                            <p style={{marginLeft:'2rem'}} className='text-danger font-small mt-n3'>{this.state.nameError}</p>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-10 offset-md-1">
-                            <MDBInput outline icon="key" type='password' label='Password' value={this.state.pass} onKeyUp={this.onEnter} onChange={(e) => this.setState({ pass: e.target.value })}></MDBInput>
-                            <p style={{ marginLeft: '2rem' }} className='text-danger font-small mt-n3'>{this.state.passError}</p>
-                        </div>
-                    </div>
-                    {
-                        this.props.loading
-                        ?
-                            <div className='d-flex justify-content-center my-3'>
-                                <div class="spinner-grow text-primary" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-success" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                                <div class="spinner-grow text-info" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
+            <div className='wallpaper page'>
+                {/* Top Spacing Purpose */}
+                <div className='mb-5'>&nbsp;</div>
+                <div className='mb-5'>&nbsp;</div>
+                <div>&nbsp;</div>
+                {/* Top Spacing Purpose */}
+
+                <div className='container mt-4'>
+                    <div className="card col-md-6 offset-md-3 ">
+                        <img src={loginImg} alt="login-illustration" height='150px' className='mt-n5 mb-3' />
+                        <div className="row">
+                            <div className="col-md-10 offset-md-1">
+                                <MDBInput outline icon="user" type='text' label='Username' value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })}></MDBInput>
+                                <p style={{marginLeft:'2rem'}} className='text-danger font-small mt-n3'>{this.state.nameError}</p>
                             </div>
-                        :
-                            <MDBBtn color='indigo' className='white-text mb-5 mt-4 mx-5 font-weight-bold' onClick={this.onLogin} style={{ letterSpacing:'2px' }}>
-                                Login
-                            </MDBBtn>
-                    }
+                        </div>
+                        <div className="row">
+                            <div className="col-md-10 offset-md-1">
+                                <MDBInput outline icon="key" type='password' label='Password' value={this.state.pass} onKeyUp={this.onEnter} onChange={(e) => this.setState({ pass: e.target.value })}></MDBInput>
+                                <p style={{ marginLeft: '2rem' }} className='text-danger font-small mt-n3'>{this.state.passError}</p>
+                            </div>
+                        </div>
+                        {
+                            this.props.loading
+                            ?
+                                <div className='d-flex justify-content-center my-4'>
+                                    <div class="spinner-grow text-primary" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-success" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-info" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            :
+                                <MDBBtn color='indigo' className='white-text mb-5 mt-4 mx-5 font-weight-bold' onClick={this.onLogin} style={{ letterSpacing:'2px' }}>
+                                    Login
+                                </MDBBtn>
+                        }
+                        
+                        <div className="row mb-4">
+                            <div className="col-md-10 offset-md-1 text-center">
+                                New to TONTON ? &nbsp;
+                                <Link to='/signup' className='text-center text-primary text-decoration-none font-bold' style={{letterSpacing:'.5px'}}>
+                                        Create Account
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div className='mt-5'>&nbsp;<br/>&nbsp;</div>
             </div>
         )
     }

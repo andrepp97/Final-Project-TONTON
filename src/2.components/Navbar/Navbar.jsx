@@ -2,21 +2,24 @@ import React, { Component } from "react";
 import { connect } from "react-redux"
 import { userLogout } from '../../redux/1.actions'
 import { Link } from 'react-router-dom'
-import Cookie from "universal-cookie"
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse,
     MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBCardText, MDBIcon
 } from "mdbreact";
-import Logo from '../../img/wicara-logo.png'
+import windowSize from 'react-window-size'
+import Logo from '../../img/tonton.png'
 import '../../App.css'
 
+// Cookies
+import Cookie from "universal-cookie"
 let cookieObj = new Cookie()
 
 
 class AppBar extends Component {
     state = {
         isOpen: false
-    };
+    }
+    
 
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
@@ -30,78 +33,83 @@ class AppBar extends Component {
 
     render() {
         return (
-                <MDBNavbar color="white" light expand="md" scrolling fixed="top" style={{zIndex:'3', opacity:.95}}>
+                <MDBNavbar color="deep-purple" dark expand="lg" scrolling transparent fixed='top'>
                     <MDBNavbarBrand>
-                        <MDBNavLink to='/'>
-                            <img src={Logo} alt="wicara.id" height='75px' className='my-n3' />
+                        <MDBNavLink to='/' className='yellow-text'>
+                            <img src={Logo} alt="tonton.id" height='70px' className='my-n4' />                            
                         </MDBNavLink>
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-                        <MDBNavbarNav left>
-                            <MDBNavItem className='itemBro font-weight-bold'>
-                                <MDBNavLink to='/'>SPEAKER</MDBNavLink>
+                        <MDBNavbarNav left style={{fontSize:'14px', letterSpacing:'.5px'}}>
+                            <MDBNavItem className='itemBro font-weight-bold my-0'>
+                                <MDBNavLink to='/'>Explore</MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className='itemBro font-weight-bold'>
-                                <MDBNavLink to='/'>STORE</MDBNavLink>
+                            <MDBNavItem className='itemBro font-weight-bold my-0'>
+                                <MDBNavLink to='/'>Movies</MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className='itemBro font-weight-bold'>
-                                <MDBDropdown>
-                                    <MDBDropdownToggle nav caret>
-                                        <span className="mr-1">SESUATU</span>
-                                    </MDBDropdownToggle>
-                                    <MDBDropdownMenu>
-                                        <MDBDropdownItem>Belom Tau</MDBDropdownItem>
-                                        <MDBDropdownItem>Sebuah Menu</MDBDropdownItem>
-                                        <MDBDropdownItem>Mantap</MDBDropdownItem>
-                                    </MDBDropdownMenu>
-                                </MDBDropdown>
+                            <MDBNavItem className='itemBro font-weight-bold my-0'>
+                                <MDBNavLink to='/'>TV Series</MDBNavLink>
                             </MDBNavItem>
                         </MDBNavbarNav>
 
-                    <MDBNavbarNav right>
+                        <MDBNavbarNav left>
+                            <MDBNavItem className = {this.props.windowWidth>=975 ? 'ml-n5 py-0' : 'ml-2 py-3 d-flex align-content-center'} waves>
+                                <input style={{fontSize:'13px', width:'16rem'}} type="search" className="rounded-pill form-control" placeholder="Find your movie . . ." />
+                            </MDBNavItem>
+                        </MDBNavbarNav>
+
+                        <MDBNavbarNav right>
                         {
                             (this.props.name)
                             ?
-                            <MDBNavItem>
+                            <MDBNavItem className='my-0'>
                                 <MDBDropdown>
-                                    <MDBDropdownToggle nav caret>
-                                        <MDBIcon icon="user" style={{ fontSize: '125%', marginTop: '7px', marginLeft: '5px' }} />
+                                    <MDBDropdownToggle nav>
+                                        <MDBIcon icon="user-circle" style={{ fontSize: '175%' }} className='white-text' />
                                     </MDBDropdownToggle>
+
                                     <MDBDropdownMenu right className="dropdown-default">
                                         <MDBCardText style={{ paddingLeft: '24px' }}><span style={{ color: 'grey', fontSize: '12px' }}>Hello,</span><br /><strong>{this.props.name}</strong></MDBCardText>
                                         <MDBDropdownItem divider></MDBDropdownItem>
 
-                                        <MDBDropdownItem className='dropItem' style={{ fontSize: '14px' }}><MDBIcon icon="user-cog" />
-                                            <Link style={{ textDecoration: 'none', marginLeft: '-6px' }} to='/history'>
-                                                &nbsp;Edit Profile
+                                        <MDBDropdownItem className='dropItem' style={{ fontSize: '14px' }}><MDBIcon icon="rocket" />
+                                            <Link style={{ textDecoration: 'none', marginLeft: '-6px' }} to='/'>
+                                                &nbsp; Subscriptions
+                                            </Link>
+                                        </MDBDropdownItem>
+                                        <MDBDropdownItem className='dropItem' style={{ fontSize: '14px' }}><MDBIcon icon="clock" />
+                                            <Link style={{ textDecoration: 'none', marginLeft: '-6px' }} to='/'>
+                                                &nbsp; Watchlist
                                                 </Link>
+                                        </MDBDropdownItem>
+                                        <MDBDropdownItem className='dropItem' style={{ fontSize: '14px' }}><MDBIcon icon="user-cog" />
+                                            <Link style={{ textDecoration: 'none', marginLeft: '-6px' }} to='/'>
+                                                &nbsp;Edit Profile
+                                            </Link>
                                         </MDBDropdownItem>
 
                                         <MDBDropdownItem divider></MDBDropdownItem>
                                         <MDBDropdownItem className='dropItem' style={{ fontSize: '14px' }} onClick={this.onLogout}>
                                             <Link style={{ textDecoration: 'none', marginLeft: '-10px' }} to='/'>
                                                 <MDBIcon icon="power-off" /> &nbsp;Logout
-                                                    </Link>
+                                            </Link>
                                         </MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
                             :
                             <MDBNavbarNav right>
-                                <MDBNavItem>
+                                <MDBNavItem className='my-n2'>
                                     <MDBNavLink to='/login'>
-                                        <MDBBtn color=''>Login</MDBBtn>
-                                    </MDBNavLink>
-                                </MDBNavItem>
-                                <MDBNavItem>
-                                    <MDBNavLink to='/signup'>
-                                        <MDBBtn color="indigo" className='white-text'>Sign Up</MDBBtn>
+                                        <MDBBtn color='elegant' className='white-text rounded-pill' style={{ letterSpacing:'.5px', fontSize:'14px' }}>
+                                            Login
+                                        </MDBBtn>
                                     </MDBNavLink>
                                 </MDBNavItem>      
                             </MDBNavbarNav>
                         }
-                    </MDBNavbarNav>
+                        </MDBNavbarNav>
                     </MDBCollapse>
                 </MDBNavbar>
         );
@@ -117,4 +125,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {userLogout})(AppBar)
+export default connect(mapStateToProps, {userLogout})(windowSize(AppBar))

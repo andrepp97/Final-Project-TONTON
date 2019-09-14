@@ -37,7 +37,7 @@ export const userLogin = (userObject) => {
                 dispatch({
                     type: 'NOT_LOADING'
                 })
-                swal('System Error', "Unable to connect to server, try again later.", "error")
+                swal('We Are Sorry', "Unable to connect to server, try again later.", "error")
             })
     }
 }
@@ -86,7 +86,7 @@ export const userSignup = (signupObject) => {
                             dispatch({
                                 type: 'NOT_LOADING'
                             })
-                            swal('System Error', "Unable to connect to server, try again later.", "error")
+                            swal('We Are Sorry', "Unable to connect to server, try again later.", "error")
                         })
                 }
             })
@@ -94,8 +94,44 @@ export const userSignup = (signupObject) => {
                 dispatch({
                     type: 'NOT_LOADING'
                 })
-                swal('System Error', "Unable to connect to server, try again later.", "error")
+                swal('We Are Sorry', "Unable to connect to server, try again later.", "error")
             })
+    }
+}
+
+
+export const keepLogin = (cookieData) => {
+    return (dispatch) => {
+        Axios.get(urlApi + 'users', {
+                params: {
+                    username: cookieData
+                }
+            })
+            .then((res) => {
+                dispatch({
+                    type: 'KEEP_LOGIN',
+                    payload: {
+                        username: res.data[0].username,
+                        role: res.data[0].role,
+                        id: res.data[0].id
+                    }
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: 'NOT_LOADING'
+                })
+                swal('We Are Sorry!', "Unable to connect to server, try again later.", "error")
+            })
+    }
+}
+
+
+export const cookieChecker = () => {
+    return (dispatch) => {
+        dispatch({
+            type: 'COOKIE_CHECK'
+        })
     }
 }
 

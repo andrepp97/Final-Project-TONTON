@@ -1,48 +1,56 @@
-import React, { Component } from 'react'
-import Logo from '../../img/wicara-logo.png'
+import React from "react";
+import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdbreact";
+import Logo from '../../img/tonton.png'
 
 
-class Footer extends Component {
-    render() {
-        return (
-            <footer className="page-footer font-small special-color-dark mt-5 pt-5" style={{overflow:'hidden'}}>
-
-                <div className="row mb-5">
-                    <div className="col-md-6">
-                        <img src={Logo} alt="logo-wicara" height='120px' className='my-n3 ml-5' />
-                        <p style={{marginLeft:'2rem'}}>Speak Up Your Mind</p>
-                    </div>
-
-                    <div className="col-md-6">
-                        <h5>Get In Touch</h5>
-                        <div className='mt-5'>
-                            {/*WA*/}
-                            <a href="https://api.whatsapp.com/send?phone=6281333432070" target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-whatsapp fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-                            {/*Instagram*/}
-                            <a href="https://www.instagram.com/andre_pp_/" target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-                            {/* Facebook */}
-                            <a href="https://www.facebook.com/andre.puterapratama" target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-                            {/*Github*/}
-                            <a href="https://github.com/andrepp97" target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-github fa-lg white-text fa-2x"> </i>
-                            </a>
+const Footer = () => {
+    return (
+        <MDBFooter color="black" className="font-small pt-5 pb-3">
+            <MDBContainer className="text-center text-md-left">
+                <MDBRow>
+                    <MDBCol md="6 pl-5 mt-n3">
+                        <img src={Logo} alt="tonton.id" height="100%" className='mt-n5 ml-n2' />
+                        <div className='list-inline mt-n4'>
+                            <li className='list-inline-item mr-3'>
+                                <a href="https://www.instagram.com/andre_pp_/" target='_blank' rel="noopener noreferrer">
+                                    <MDBIcon fab icon="instagram" style={{fontSize:'24px'}} />
+                                </a>
+                            </li>
+                            <li className="list-inline-item mr-3">
+                                <a href="https://www.facebook.com/andre.puterapratama" target='_blank' rel="noopener noreferrer">
+                                    <MDBIcon fab icon="facebook" style={{ fontSize: '24px' }} />
+                                </a>
+                            </li>
+                            <li className="list-inline-item">
+                                <a href="https://github.com/andrepp97/Final-Project-TONTON" target='_blank' rel="noopener noreferrer">
+                                    <MDBIcon fab icon="github" style={{ fontSize: '24px' }} />
+                                </a>
+                            </li>
                         </div>
-                    </div>
-                </div>
-
-                {/* Copyright */}
-                <div className="footer-copyright text-center py-3">© 2019 Copyright - <a href="https://andreputerap.firebaseapp.com/" target='_blank' rel='noopener noreferrer'>Andre Putera Pratama</a>
-                </div>
-
-            </footer>
-        )
-    }
+                    </MDBCol>
+                    <MDBCol md="6 pl-5">
+                        <h5 className="title">About TONTON</h5>
+                        <ul className='list-group'>
+                            <li className="list-unstyled">
+                                <a href="#!" className='grey-text'>FAQ</a>
+                            </li>
+                            <li className="list-unstyled">
+                                <a href="#!" className='grey-text'>Contact Us</a>
+                            </li>
+                            <li className="list-unstyled">
+                                <a href="#!" className='grey-text'>About Us</a>
+                            </li>
+                        </ul>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
+            <div className="footer-copyright text-center py-3">
+                <MDBContainer className='border-top border-bottom py-3'>
+                    &copy; {new Date().getFullYear()} Copyright by <a href="http://andreputerap.firebaseapp.com" target='_blank' rel="noopener noreferrer"> Andre Putera Pratama </a>
+                </MDBContainer>
+            </div>
+        </MDBFooter>
+    );
 }
 
-export default Footer
+export default Footer;
