@@ -1,145 +1,95 @@
-import Axios from "axios";
-import {urlApi} from "../../3.helpers/database";
-import swal from 'sweetalert';
+import { 
+    LOGIN_SUCCESS,
+    USER_LOGOUT,
+    IS_LOADING,
+    NOT_LOADING,
+    NAV_ITEM_CHANGE
+ } from "./types"
 
+ 
+import Axios from "axios"
+import {urlApi} from "../../3.helpers/database"
+import swal from 'sweetalert'
+
+
+
+export const navItemChange = (navItem) => {
+    return {
+        type: NAV_ITEM_CHANGE,
+        payload: navItem
+    }
+}
+
+
+export const confirmLogin = (user) => {
+    console.log(user)
+    return {
+        type: LOGIN_SUCCESS,
+        payload: user
+    }
+}
 
 export const userLogin = (userObject) => {
     return (dispatch) => {
         dispatch({
-            type: 'IS_LOADING'
+            type: IS_LOADING
         })
 
-        Axios.get(urlApi + 'users', {
-                params: {
-                    username: userObject.username,
-                    password: userObject.password
-                }
-            })
-            .then((res) => {
-                if (res.data.length > 0) {
-                    dispatch({
-                        type: 'LOGIN_SUCCESS',
-                        payload: {
-                            username: res.data[0].username,
-                            role: res.data[0].role,
-                            email: res.data[0].role,
-                            id: res.data[0].id
-                        }
-                    })
-                } else {
-                    dispatch({
-                        type: 'NOT_LOADING'
-                    })
-                    swal('Login Failed!', "Wrong username or password", "warning")
-                }
-            })
-            .catch((err) => {
+        Axios.post(urlApi + 'user/userLogin', {
+                email: userObject.email,
+                password: userObject.password
+            }).then((res) => {
+                console.log(res.data)
+                localStorage.setItem('token', res.data.token)
                 dispatch({
-                    type: 'NOT_LOADING'
-                })
-                swal('We Are Sorry', "Unable to connect to server, try again later.", "error")
-            })
-    }
-}
-
-
-export const userSignup = (signupObject) => {
-    return (dispatch) => {
-        dispatch({
-            type: 'IS_LOADING'
-        })
-
-        // GET the duplicate username
-        Axios.get(urlApi + 'users', {
-                params: {
-                    username: signupObject.username
-                }
-            })
-            .then((res) => {
-                if (res.data.length > 0) {
-                    dispatch({
-                        type: 'NOT_LOADING'
-                    })
-                    swal('Register Failed!', 'Username already taken', 'warning')
-                } else {
-                    Axios.post(urlApi + 'users', signupObject)
-                        .then((res) => {
-                            dispatch({
-                                type: 'LOGIN_SUCCESS',
-                                payload: {
-                                    username: res.data.username,
-                                    email: res.data.email,
-                                    password: res.data.passwword,
-                                    role: res.data.role,
-                                    id: res.data.id
-                                }
-                            })
-                            var contentBro = document.createElement('div');
-                            contentBro.innerHTML = 'You can now login as <strong>' + res.data.username + '<strong>'
-                            swal({
-                                title: 'Register Success!',
-                                content: contentBro,
-                                icon: "success"
-                            })
-                        })
-                        .catch((err) => {
-                            dispatch({
-                                type: 'NOT_LOADING'
-                            })
-                            swal('We Are Sorry', "Unable to connect to server, try again later.", "error")
-                        })
-                }
-            })
-            .catch((err) => {
-                dispatch({
-                    type: 'NOT_LOADING'
-                })
-                swal('We Are Sorry', "Unable to connect to server, try again later.", "error")
-            })
-    }
-}
-
-
-export const keepLogin = (cookieData) => {
-    return (dispatch) => {
-        Axios.get(urlApi + 'users', {
-                params: {
-                    username: cookieData
-                }
-            })
-            .then((res) => {
-                dispatch({
-                    type: 'KEEP_LOGIN',
+                    type: LOGIN_SUCCESS,
                     payload: {
-                        username: res.data[0].username,
-                        role: res.data[0].role,
-                        id: res.data[0].id
+                        id: res.data.id,
+                        username: res.data.username,
+                        email: res.data.email,
+                        role: res.data.roleName
                     }
                 })
             })
             .catch((err) => {
                 dispatch({
-                    type: 'NOT_LOADING'
+                    type: NOT_LOADING
                 })
-                swal('We Are Sorry!', "Unable to connect to server, try again later.", "error")
+                swal('We Are Sorry', "Unable to connect to server, try again later.", "error")
             })
     }
 }
 
 
-export const cookieChecker = () => {
+export const keepLogin = (token) => {
     return (dispatch) => {
-        dispatch({
-            type: 'COOKIE_CHECK'
-        })
+        var options = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+        Axios.post(urlApi + 'user/userKeepLogin', null, options)
+            .then(res => {
+                dispatch({
+                    type: LOGIN_SUCCESS,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                localStorage.removeItem('token')
+                console.log(err)
+                dispatch({
+                    type: USER_LOGOUT
+                })
+            })
     }
 }
 
 
 export const userLogout = () => {
-    return (dispatch) => {
-        dispatch({
-            type: 'LOGOUT'
-        })
+    localStorage.removeItem('token')
+    return {
+        type: USER_LOGOUT
     }
 }

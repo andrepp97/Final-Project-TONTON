@@ -5,18 +5,18 @@ import Logo from '../../img/tonton.png'
 
 const Footer = () => {
     return (
-        <MDBFooter color="black" className="font-small pt-5 pb-3">
+        <MDBFooter color="black" className="font-small pt-5 pb-3" style={{opacity:.95}}>
             <MDBContainer className="text-center text-md-left">
                 <MDBRow>
                     <MDBCol md="6 pl-5 mt-n3">
-                        <img src={Logo} alt="tonton.id" height="100%" className='mt-n5 ml-n2' />
-                        <div className='list-inline mt-n4'>
-                            <li className='list-inline-item mr-3'>
+                        <img src={Logo} alt="tonton.id" height="100%" className='mt-n5' />
+                        <div className='list-inline mt-n4 ml-2'>
+                            <li className='list-inline-item'>
                                 <a href="https://www.instagram.com/andre_pp_/" target='_blank' rel="noopener noreferrer">
                                     <MDBIcon fab icon="instagram" style={{fontSize:'24px'}} />
                                 </a>
                             </li>
-                            <li className="list-inline-item mr-3">
+                            <li className="list-inline-item">
                                 <a href="https://www.facebook.com/andre.puterapratama" target='_blank' rel="noopener noreferrer">
                                     <MDBIcon fab icon="facebook" style={{ fontSize: '24px' }} />
                                 </a>

@@ -1,21 +1,34 @@
+// IMPORT LIBRARY //
 import React, { Component } from 'react'
 import { withRouter, Route, Switch } from "react-router-dom";
 import {connect} from 'react-redux'
-import {keepLogin, cookieChecker} from './redux/1.actions'
+import {keepLogin} from './redux/1.actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './scss/slideTransition.scss'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
+// IMPORT LIBRARY //
 
-// IMPORT PAGES
+// IMPORT PAGES & COMPONENTS //
 import Navbar from './2.components/Navbar/Navbar'
 import Home from './1.pages/Home/Home'
 import Login from './1.pages/Login/Login'
 import Signup from './1.pages/Signup/Signup'
-import Footer from './2.components/Footer/Footer';
+import EmailVerification from './1.pages/EmailVerifying/EmailVerification'
+import EmailVerified from './1.pages/EmailVerified/EmailVerified'
+import Subscription from './1.pages/Subscription/Subscription'
+import Watchlist from './1.pages/Watchlist/Watchlist'
+import allMovies from './1.pages/Movies-All/allMovies'
+import MovieDetails from './1.pages/Movie-Details/movieDetails'
+import allCast from './1.pages/Cast-All/allCast'
+import CastDetails from "./1.pages/Cast-Details/castDetails"
+import PlayMovie from './1.pages/Play/Play'
+import Footer from './2.components/Footer/Footer'
+import PageNotFound from './1.pages/404'
+// IMPORT PAGES & COMPONENTS //
 
-// Cookie
-import Cookie from 'universal-cookie'
-let cookieObj = new Cookie()
+// IMPORT IMAGES //
+import loadingImg from './img/illustrations/loading.svg'
+// IMPORT IMAGES //
 
 
 class App extends Component {
@@ -29,26 +42,45 @@ class App extends Component {
     return pathArr.length
   }
 
-  componentWillReceiveProps() {
+
+  // Lifecycle
+  UNSAFE_componentWillReceiveProps() {
     this.setState({ prevDepth : this.getPathDepth(this.props.location) })
   }
 
   componentDidMount() {
-    let cookieVar = cookieObj.get('userData')
-    if (cookieVar) {
-      this.props.keepLogin(cookieVar)
-    } else {
-      this.props.cookieChecker()
-    }
+    var token = localStorage.getItem('token')
+    console.log(token)
+    this.props.keepLogin(token)
   }
+  // Lifecycle
 
 
   render() {
     const {location} = this.props
     const currentKey = location.pathname.split("/")[1] || "/"
-    const timeout = { enter:600, exit:500 }
+    const timeout = { enter:700, exit:700 }
 
-    if (this.props.globalCookie) {
+    if (!this.props.userObject.checker) {
+      return(
+        <div className='container py-5 text-center'>
+          <h1 className='py-5'>Preparing Your Movies</h1>
+          <div className='d-flex justify-content-center my-4'>
+              <div className="spinner-grow text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+              </div>
+              <div className="spinner-grow text-success mx-2" role="status">
+                  <span className="sr-only">Loading...</span>
+              </div>
+              <div className="spinner-grow text-info" role="status">
+                  <span className="sr-only">Loading...</span>
+              </div>
+          </div>
+          <img src={loadingImg} height='300px' className='mt-5' alt="Thank You For Your Patience" />
+        </div>
+      )
+    }
+
       return (
         <TransitionGroup className='App overflow-hidden' component='div'>
             <Navbar/>
@@ -59,42 +91,35 @@ class App extends Component {
               mountOnEnter={false}
               unmountOnExit={true}
             >
-            <div className={this.getPathDepth(location) - this.state.prevDepth >= 0 ? 'left' : 'right'} >
+              <div className={this.getPathDepth(location) - this.state.prevDepth >= 0 ? 'left' : 'right'} >
                 <Switch location={location}>
                   <Route component={Home} path='/' exact />
+                  <Route component={Home} path='/home' exact />
                   <Route component={Login} path='/login' exact />
                   <Route component={Signup} path='/signup' exact />
+                  <Route component={EmailVerification} path='/emailverification' exact />
+                  <Route component={EmailVerified} path='/emailverified' exact />
+                  <Route component={Subscription} path='/subscription' exact />
+                  <Route component={Watchlist} path='/watchlist' exact />
+                  <Route component={allMovies} path='/movies' exact />
+                  <Route component={allCast} path='/cast' exact />
+                  <Route component={CastDetails} path='/cast-details/:id' exact />
+                  <Route component={MovieDetails} path='/movie-details/:id' exact />
+                  <Route component={PlayMovie} path='/play' exact />
+                  <Route component={PageNotFound} path='*' />
                 </Switch>
               </div>
             </CSSTransition>
               <Footer/>
           </TransitionGroup>
       )
-    }
-    return (
-      <>
-        <h3 className='text-center my-5'>Please Wait . . .</h3>
-        <div className='d-flex justify-content-center my-3'>
-            <div class="spinner-grow text-primary" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-            <div class="spinner-grow text-success" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-            <div class="spinner-grow text-info" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-      </>
-    )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    globalCookie: state.user.cookie,
     userObject: state.user
   }
 }
 
-export default connect(mapStateToProps, { keepLogin, cookieChecker }) (withRouter(App))
+export default connect(mapStateToProps, { keepLogin })(withRouter(App))

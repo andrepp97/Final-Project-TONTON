@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import { Redirect,Link } from 'react-router-dom'
 
 // Import Global Functions
-import { userSignup } from '../../redux/1.actions'
+import { userSignup, navItemChange } from '../../redux/1.actions'
 
 
 class Signup extends Component {
@@ -19,6 +19,11 @@ class Signup extends Component {
         passError: '',
         pass2Error: '',
         show: true
+    }
+
+    componentDidMount() {
+        window.scrollTo(0, 0);
+        this.props.navItemChange('')
     }
 
     validateInput = () => {
@@ -71,9 +76,8 @@ class Signup extends Component {
     submitValid = () => {
         let signupObject = {
             username: this.state.username,
-            email: this.state.email,
             password: this.state.pass,
-            role: 'user'
+            email: this.state.email
         }
 
         // Jika input nya valid maka melakukan Register
@@ -97,19 +101,21 @@ class Signup extends Component {
 
     render() {
         if (this.props.username !== '') {
-            return <Redirect to='/'></Redirect>
+            return <Redirect to='/home'></Redirect>
+        }
+        if (this.props.success) {
+            return <Redirect to={`/emailverification?email=${this.props.emailSuccess}`} />
         }
 
         return (
             <div className='wallpaper page'>
                 {/* Top Spacing Purpose */}
                 <div className='mb-5'>&nbsp;</div>
-                <div className='mb-5'>&nbsp;</div>
-                <div>&nbsp;</div>
+                <h1 className='mb-5'>&nbsp;</h1>
                 {/* Top Spacing Purpose */}
 
                 <div className='container mt-4'>
-                    <div className="card col-md-6 offset-md-3 ">
+                    <div className="card col-lg-6 offset-lg-3 ">
                         <img src={signupImg} alt="login-illustration" height='150px' className='mt-n5 mb-3' />
                         <div className="row">
                             <div className="col-md-10 offset-md-1">
@@ -136,25 +142,30 @@ class Signup extends Component {
                             </div>
                         </div>
 
+                        <div className="text-center">
                         {
                             this.props.loading
                                 ?
                                 <div className='d-flex justify-content-center my-4'>
-                                    <div class="spinner-grow text-primary" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                    <div className="spinner-grow text-primary" role="status">
+                                        <span className="sr-only">Loading...</span>
                                     </div>
-                                    <div class="spinner-grow text-success" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                    <div className="spinner-grow text-success" role="status">
+                                        <span className="sr-only">Loading...</span>
                                     </div>
-                                    <div class="spinner-grow text-info" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                    <div className="spinner-grow text-info" role="status">
+                                        <span className="sr-only">Loading...</span>
                                     </div>
                                 </div>
                                 :
-                                <MDBBtn color='indigo' className='white-text mb-5 mt-4 mx-5 font-weight-bold' style={{ letterSpacing: '1px' }} onClick={this.onSignup}>
+                                <MDBBtn color='deep-purple'
+                                        className='white-text mb-5 mt-4 mx-5 font-weight-bold rounded-pill w-50'
+                                        style={{ letterSpacing: '1px' }}
+                                        onClick={this.onSignup}>
                                     Create Account
                                 </MDBBtn>
                         }
+                        </div>
 
                         <div className="row mb-4">
                             <div className="col-md-10 offset-md-1 text-center">
@@ -175,9 +186,11 @@ class Signup extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        loading: state.user.loading,
-        username: state.user.username
+        username: state.user.username,
+        loading: state.userSignup.isLoading,
+        success: state.userSignup.success,
+        emailSuccess: state.userSignup.emailSuccess
     }
 }
 
-export default connect(mapStateToProps, { userSignup })(Signup)
+export default connect(mapStateToProps, { userSignup, navItemChange })(Signup)

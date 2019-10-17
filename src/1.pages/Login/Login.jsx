@@ -5,11 +5,7 @@ import { connect } from "react-redux"
 import { Redirect, Link } from 'react-router-dom'
 
 // Import Global Functions
-import { userLogin } from '../../redux/1.actions'
-
-// Cookie
-import Cookie from 'universal-cookie'
-let cookieObj = new Cookie()
+import { userLogin, navItemChange } from '../../redux/1.actions'
 
 
 class Login extends Component {
@@ -20,8 +16,9 @@ class Login extends Component {
         passError: ''
     }
 
-    componentWillReceiveProps(newProps) {
-        cookieObj.set('userData', newProps.username, { path: '/' })
+    componentDidMount() {
+        window.scrollTo(0, 0)
+        this.props.navItemChange('')
     }
 
     validateInput = () => {
@@ -50,7 +47,7 @@ class Login extends Component {
     submitValid = () => {
         const isValid = this.validateInput()
         let loginObject = {
-            username: this.state.name,
+            email: this.state.name,
             password: this.state.pass
         }
 
@@ -82,23 +79,22 @@ class Login extends Component {
 
     render() {
         if (this.props.username !== '') {
-            return <Redirect to='/'></Redirect>
+            return <Redirect to='/home'></Redirect>
         }
 
         return (
             <div className='wallpaper page'>
                 {/* Top Spacing Purpose */}
                 <div className='mb-5'>&nbsp;</div>
-                <div className='mb-5'>&nbsp;</div>
-                <div>&nbsp;</div>
+                <h1 className='mb-5'>&nbsp;</h1>
                 {/* Top Spacing Purpose */}
 
                 <div className='container mt-4'>
-                    <div className="card col-md-6 offset-md-3 ">
+                    <div className="card col-lg-6 offset-lg-3">
                         <img src={loginImg} alt="login-illustration" height='150px' className='mt-n5 mb-3' />
                         <div className="row">
                             <div className="col-md-10 offset-md-1">
-                                <MDBInput outline icon="user" type='text' label='Username' value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })}></MDBInput>
+                                <MDBInput outline icon="user" type='text' label='Email' value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })}></MDBInput>
                                 <p style={{marginLeft:'2rem'}} className='text-danger font-small mt-n3'>{this.state.nameError}</p>
                             </div>
                         </div>
@@ -108,25 +104,29 @@ class Login extends Component {
                                 <p style={{ marginLeft: '2rem' }} className='text-danger font-small mt-n3'>{this.state.passError}</p>
                             </div>
                         </div>
+                        <div className="text-center">
                         {
                             this.props.loading
                             ?
                                 <div className='d-flex justify-content-center my-4'>
-                                    <div class="spinner-grow text-primary" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                    <div className="spinner-grow text-primary" role="status">
+                                        <span className="sr-only">Loading...</span>
                                     </div>
-                                    <div class="spinner-grow text-success" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                    <div className="spinner-grow text-success mx-2" role="status">
+                                        <span className="sr-only">Loading...</span>
                                     </div>
-                                    <div class="spinner-grow text-info" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                    <div className="spinner-grow text-info" role="status">
+                                        <span className="sr-only">Loading...</span>
                                     </div>
                                 </div>
                             :
-                                <MDBBtn color='indigo' className='white-text mb-5 mt-4 mx-5 font-weight-bold' onClick={this.onLogin} style={{ letterSpacing:'2px' }}>
+                                <MDBBtn color='deep-purple'
+                                        className='white-text mb-5 mt-4 mx-5 font-weight-bold rounded-pill w-50'
+                                        style={{ letterSpacing: '2px' }} onClick={this.onLogin}>
                                     Login
                                 </MDBBtn>
                         }
+                        </div>
                         
                         <div className="row mb-4">
                             <div className="col-md-10 offset-md-1 text-center">
@@ -138,7 +138,8 @@ class Login extends Component {
                         </div>
                     </div>
                 </div>
-
+                    
+                {/* Bottom Spacing */}
                 <div className='mt-5'>&nbsp;<br/>&nbsp;</div>
             </div>
         )
@@ -152,4 +153,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {userLogin})(Login)
+export default connect(mapStateToProps, { userLogin, navItemChange })(Login)

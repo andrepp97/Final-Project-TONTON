@@ -1,0 +1,50 @@
+/* SUBSCRIPTION CSS */
+.price {
+    background: #2c2c2c;
+    margin-top: 20px;
+}
+
+.price h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #fff;
+    letter-spacing: .5px;
+}
+
+.price h4 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1.5px;
+}
+
+.price h4 span.sup {
+    vertical-align: text-top;
+    font-size: 18px;
+}
+
+.deal-top {
+    position: relative;
+    background: #512DA8;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-top: -60px;
+}
+
+.deal-bottom ul {
+    margin: 0;
+    padding: 0;
+}
+
+.deal-bottom ul li {
+    font-size: 16px;
+    color: white;
+    font-weight: 400;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+    list-style-type: none;
+}
+
+/* SUBSCRIPTION CSS */
