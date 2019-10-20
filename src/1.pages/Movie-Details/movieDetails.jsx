@@ -1,24 +1,30 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import Axios from 'axios'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { navItemChange } from '../../redux/1.actions'
-import { urlApi } from '../../3.helpers/database'
-import { MDBBtn, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody, MDBTooltip } from 'mdbreact'
 import windowSize from 'react-window-size'
 import Scroll from 'react-scroll'
+import ReactTooltip from 'react-tooltip';
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { ToastContainer, toast, Flip } from 'react-toastify'
+import { MDBBtn, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody } from 'mdbreact'
+
+import { urlApi } from '../../3.helpers/database'
+import { navItemChange } from '../../redux/1.actions'
 
 let scroll = Scroll.animateScroll
 
+
 class movieDetails extends Component {
     _isMounted = false
+    idMov = this.props.match.params.id
 
     state = {
         movieData: [],
         movieGenre: '',
         movieCast: [],
-        showTrailer: false
+        showTrailer: false,
+        watchlist: false
     }
 
 
@@ -28,6 +34,7 @@ class movieDetails extends Component {
         scroll.scrollToTop()
         
         this.getMovieData()
+        this.checkWatchlist()
         this.props.navItemChange('MOVIES')
     }
 
@@ -37,41 +44,40 @@ class movieDetails extends Component {
     // LIFECYCLE //
 
 
+    // GET DATA //
     getMovieData = () => {
-        const idMov = this.props.match.params.id
-        Axios.get(urlApi + 'movie/movies/' + idMov)
-            .then((res) => {
-                if (this._isMounted) {
-                    console.log(res.data)
-                    this.setState({ movieData: res.data[0] })
-
-                    // Get Movie Genre
-                    Axios.get(urlApi + 'movie/getGenre/' + idMov)
-                        .then((res) => {
-                            this.setState({ movieGenre: res.data })
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        })
-
-                    // Get Movie Cast
-                    Axios.post(urlApi + 'cast/movieCast', {
-                        idMov
+        Axios.post(urlApi + 'movie/movies', {
+            idMov: this.idMov
+        }).then((res) => {
+            if (this._isMounted) {
+                this.setState({ movieData: res.data[0] })
+                // Get Movie Genre
+                Axios.post(urlApi + 'movie/getGenre/', {
+                    idMov: this.idMov
+                }).then((res) => {
+                    this.setState({ movieGenre: res.data })
+                }).catch((err) => {
+                    console.log(err)
+                })
+                // Get Movie Cast
+                Axios.post(urlApi + 'cast/movieCast', {
+                    idMov: this.idMov
+                })
+                    .then((res) => {
+                        console.log(res.data)
+                        this.setState({ movieCast: res.data })
                     })
-                        .then((res) => {
-                            console.log(res.data)
-                            this.setState({ movieCast: res.data })
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        })
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
     }
+    // GET DATA //
 
+    // RENDERS //
     renderMovieCast = () => {
         if (this.state.movieCast !== [] && this.state.movieCast.length !== 0) {
             let jsx = this.state.movieCast.map(val => {
@@ -87,6 +93,50 @@ class movieDetails extends Component {
             return jsx
         }
     }
+    // RENDERS //
+
+    // WATCHLIST //
+    checkWatchlist = () => {
+        if (this._isMounted) {
+            Axios.post(urlApi + 'watchlist/checkWatchlist', {
+                idUser: this.props.userObject.id,
+                idMov: this.idMov
+            }).then(res => {
+                if (res.data.length > 0) {
+                    this.setState({ watchlist: true })
+                } else {
+                    this.setState({ watchlist: false })
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }
+
+    addToWatchlist = () => {
+        Axios.post(urlApi + 'watchlist/addToWatchlist', {
+            idUser: this.props.userObject.id,
+            idMov: this.idMov
+        }).then(res => {
+            toast('Added to Watchlist')
+            this.checkWatchlist()
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
+    removeFromWatchlist = () => {
+        Axios.post(urlApi + 'watchlist/removeFromWatchlist', {
+            idUser: this.props.userObject.id,
+            idMov: this.idMov
+        }).then(res => {
+            toast.error('Removed from Watchlist')
+            this.checkWatchlist()
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+    // WATCHLIST //
     
 
     render() {
@@ -96,6 +146,21 @@ class movieDetails extends Component {
                 <div className='mb-5'>&nbsp;</div>
                 {/* Top Spacing Purpose */}
 
+                {/* TOASTIFY & ToolTip CONTAINER */}
+                <ReactTooltip place="top" type="dark" />
+                <ToastContainer
+                    position="top-center"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    pauseOnHover={false}
+                    closeButton={false}
+                    transition={Flip}
+                    closeOnClick
+                    draggable
+                />
+                {/* TOASTIFY & ToolTip CONTAINER */}
+
+                {/* MAIN CONTENT */}
                 <div className='container py-5'>
                     <div className="row">
                         <div className={ this.props.windowWidth < 975 ? "col-lg-12 text-center" : "col-lg-4" }>
@@ -104,15 +169,17 @@ class movieDetails extends Component {
                                 height='450px'
                                 width='300px'
                                 alt="movie-poster"
-                            />    
+                            />
                         </div>
                         <div className="col-lg-8">
-                            <h3 className='white-text border-bottom pb-3 mb-4 font-weight-bold' style={{ letterSpacing: '1.5px' }}>
+                            {/* MOVIE TITLE */}
+                            <h3 className='white-text border-bottom pb-3 mb-4 font-weight-bold' style={{ letterSpacing: '1px' }}>
                                 {this.state.movieData.movieName}
-                                <span style={{fontSize:'1.6rem', letterSpacing:'1px'}} className='d-inline text-white-50 ml-2'>
+                                <span className='d-inline text-white-50 ml-2 font-small' style={{fontSize:'20px'}}>
                                     {'(' + moment(this.state.movieData.releaseDate).format('YYYY') + ')'}
                                 </span>
                             </h3>
+                            {/* MOVIE TITLE */}
                             <MDBIcon size='lg' icon="stopwatch" className='text-white-50' />
                                 <p className='d-inline white-text ml-1' style={{letterSpacing:'1px'}}>
                                     {this.state.movieData.duration}
@@ -137,10 +204,11 @@ class movieDetails extends Component {
                                 </span>
                             </p>
 
+                        {/* BUTTONS */}
                             {
                                 this.props.userObject.username === ''
                                 ?
-                                <Link to='/login'>
+                                <Link to='/login' style={{outline:'none'}}>
                                     <MDBBtn color='deep-purple'
                                             className='white-text font-weight-bold px-4 py-2 ml-auto rounded'
                                             style={{letterSpacing:'1px'}}
@@ -149,15 +217,16 @@ class movieDetails extends Component {
                                     </MDBBtn>
                                 </Link>
                                 :
-                                <a href='/play'>
+                                <Link to={`/play/${this.props.match.params.id}`} style={{outline:'none'}}>
                                     <MDBBtn color='deep-purple'
                                             className='white-text font-weight-bold px-4 py-2 ml-auto rounded'
                                             style={{ letterSpacing: '1px' }}
                                     >
                                         <MDBIcon icon="play" /><span className='ml-2'>Play</span>
                                     </MDBBtn>
-                                </a>
+                                </Link>
                             }
+
                             <MDBBtn color='elegant'
                                     className='white-text font-weight-bold px-4 py-2 mx-3 rounded'
                                     style={{letterSpacing:'1px'}}
@@ -165,12 +234,43 @@ class movieDetails extends Component {
                             >
                                 <MDBIcon icon="film" /><span className='ml-2'>Trailer</span>
                             </MDBBtn>
-                            <MDBTooltip placement="bottom">
-                                <MDBBtn color='elegant' className='white-text rounded-circle px-3 py-2'>
-                                    <MDBIcon far icon="bookmark" />
-                                </MDBBtn>
-                                <p>Add To Watchlist</p>
-                            </MDBTooltip>
+                            
+                            
+                                {
+                                    this.props.userObject.username === ''
+                                    ?
+                                    <Link to='/login'>
+                                        <MDBBtn
+                                            color='elegant'
+                                            className='white-text rounded-circle px-3 py-2'
+                                            data-tip='Login to add this movie to your Watchlist'
+                                        >
+                                            <MDBIcon far icon="bookmark" />
+                                        </MDBBtn>
+                                    </Link>
+                                    :
+                                    (this.state.watchlist)
+                                    ?
+                                        <MDBBtn
+                                            color='elegant'
+                                            className='white-text rounded-circle px-3 py-2'
+                                            data-tip='This movie is in your watchlist'
+                                            onClick={this.removeFromWatchlist}
+                                        >
+                                            <MDBIcon icon="bookmark" />
+                                        </MDBBtn>
+                                    :
+                                        <MDBBtn
+                                            color='elegant'
+                                            className='white-text rounded-circle px-3 py-2'
+                                            data-tip='Add this movie to Watchlist'
+                                            onClick={this.addToWatchlist}
+                                        >
+                                            <MDBIcon far icon="bookmark" />
+                                        </MDBBtn>
+                                }
+                            
+                        {/* BUTTONS */}
 
                             <p className='white-text my-4 text-justify'>
                                 {this.state.movieData.synopsis}
@@ -204,6 +304,7 @@ class movieDetails extends Component {
                         { this.renderMovieCast() }
                     </div>
                 </div>
+                {/* MAIN CONTENT */}
             </div>
         )
     }

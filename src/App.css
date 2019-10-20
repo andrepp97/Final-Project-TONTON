@@ -6,19 +6,19 @@
 }
 
 .wallpaper {
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.975)),
+    background: linear-gradient(rgba(0, 0, 0, 0.875), rgba(0, 0, 0, 0.975)),
         url('./img/background2.jpg');
     background-size: cover;
     background-attachment: fixed;
 }
 .wallpaper2 {
-    background: linear-gradient(rgba(0, 0, 0, 0.94), rgba(0, 0, 0, 0.975)),
+    background: linear-gradient(rgba(0, 0, 0, 0.875), rgba(0, 0, 0, 0.975)),
         url('./img/avengers-backdrop2.jpg');
     background-size: cover;
     background-attachment: fixed;
 }
 .movie-backdrop2 {
-    background: linear-gradient(rgba(0, 0, 0, 0.94), rgba(0, 0, 0, 0.975)),
+    background: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.975)),
         url('./img/illustrations/force.svg');
     background-size: cover;
     background-position: center;

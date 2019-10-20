@@ -18,7 +18,10 @@ import './Navbar.css'
 
 class AppBar extends Component {
     state = {
-        isOpen: false
+        isOpen: false,
+        searchFocus: false,
+        searchValue: '',
+        doSearch: false
     }
 
     toggleCollapse = () => {
@@ -29,12 +32,18 @@ class AppBar extends Component {
         this.props.userLogout()
     }
 
+    onSearch = (event) => {
+        if (event.key === 'Enter' && this.state.searchValue !== '') {
+            window.location = `/searchResult?q=${this.state.searchValue}`
+        }
+    }
+
 
     render() {
         return (
                 <MDBNavbar color="deep-purple" dark expand="lg" scrolling transparent fixed='top'>
                     <MDBNavbarBrand>
-                        <MDBNavLink to='/home' className='yellow-text'>
+                        <MDBNavLink to='/home'>
                             <img src={Logo} alt="tonton.id" height='72px' className='my-n4' />                            
                         </MDBNavLink>
                     </MDBNavbarBrand>
@@ -69,21 +78,29 @@ class AppBar extends Component {
                                 this.props.activeTab === 'CAST'
                                 ?
                                 <MDBNavItem className='font-weight-bold' active>
-                                    <MDBNavLink to='/cast'>CAST</MDBNavLink>
+                                    <MDBNavLink to='/cast'>ARTISTS</MDBNavLink>
                                 </MDBNavItem>
                                 :
                                 <MDBNavItem className='font-weight-bold'>
-                                    <MDBNavLink to='/cast'>CAST</MDBNavLink>
+                                    <MDBNavLink to='/cast'>ARTISTS</MDBNavLink>
                                 </MDBNavItem>
                             }
                         </MDBNavbarNav>
 
                         <MDBNavbarNav right>
+                        {/* SEARCH BAR */}
                             <MDBNavItem>
-                                <form>
-                                    <input type="search" placeholder="Search" />
-                                </form>
+                                    <input
+                                        type="search"
+                                        placeholder={ this.state.searchFocus ? "Type something and hit Enter" : "Search" }
+                                        onFocus={() => this.setState({searchFocus:true})}
+                                        onBlur={() => this.setState({searchFocus:false})}
+                                        onChange={(e) => this.setState({searchValue: e.target.value})}
+                                        onKeyUp={this.onSearch}
+                                    />
                             </MDBNavItem>
+                        {/* SEARCH BAR */}
+
                         {
                             (this.props.name)
                             ?

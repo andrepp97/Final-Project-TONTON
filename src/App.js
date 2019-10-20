@@ -22,6 +22,7 @@ import MovieDetails from './1.pages/Movie-Details/movieDetails'
 import allCast from './1.pages/Cast-All/allCast'
 import CastDetails from "./1.pages/Cast-Details/castDetails"
 import PlayMovie from './1.pages/Play/Play'
+import SearchResult from './1.pages/searchResult/SearchResult'
 import Footer from './2.components/Footer/Footer'
 import PageNotFound from './1.pages/404'
 // IMPORT PAGES & COMPONENTS //
@@ -44,10 +45,10 @@ class App extends Component {
 
 
   // Lifecycle
-  UNSAFE_componentWillReceiveProps() {
+  UNSAFE_componentWillMount() {
     this.setState({ prevDepth : this.getPathDepth(this.props.location) })
   }
-
+  
   componentDidMount() {
     var token = localStorage.getItem('token')
     console.log(token)
@@ -59,7 +60,7 @@ class App extends Component {
   render() {
     const {location} = this.props
     const currentKey = location.pathname.split("/")[1] || "/"
-    const timeout = { enter:700, exit:700 }
+    const timeout = { enter:650, exit:650 }
 
     if (!this.props.userObject.checker) {
       return(
@@ -105,7 +106,8 @@ class App extends Component {
                   <Route component={allCast} path='/cast' exact />
                   <Route component={CastDetails} path='/cast-details/:id' exact />
                   <Route component={MovieDetails} path='/movie-details/:id' exact />
-                  <Route component={PlayMovie} path='/play' exact />
+                  <Route component={PlayMovie} path='/play/:idMov' exact />
+                  <Route component={SearchResult} path='/searchResult' exact />
                   <Route component={PageNotFound} path='*' />
                 </Switch>
               </div>

@@ -131,7 +131,7 @@ class Login extends Component {
                         <div className="row mb-4">
                             <div className="col-md-10 offset-md-1 text-center">
                                 New to TONTON ? &nbsp;
-                                <Link to='/signup' className='text-center text-primary text-decoration-none font-bold' style={{letterSpacing:'.5px'}}>
+                                <Link to='/signup' className='text-center text-primary text-decoration-none font-weight-bold'>
                                         Create Account
                                 </Link>
                             </div>

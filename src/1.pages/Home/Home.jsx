@@ -3,11 +3,12 @@ import Axios from 'axios'
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import { MDBBadge } from 'mdbreact'
-import Jumbotron from '../../2.components/Jumbotron/Jumbotron'
-import Carousel from '../../2.components/Carousel/Carousel'
 import { urlApi } from '../../3.helpers/database'
 import { navItemChange } from '../../redux/1.actions'
-let Scroll = require('react-scroll')
+import Jumbotron from '../../2.components/Jumbotron/Jumbotron'
+import Carousel from '../../2.components/Carousel/Carousel'
+import Scroll from 'react-scroll'
+
 let scroll = Scroll.animateScroll
 
 
@@ -25,7 +26,7 @@ class Home extends Component {
         this._isMounted = true
         scroll.scrollToTop()
         
-        this.getMoviePoster()
+        this.getMoviePosterPopular()
         this.getMoviePosterNew()
         this.props.navItemChange('DISCOVER')
     }
@@ -37,8 +38,8 @@ class Home extends Component {
 
 
     // GET MOVIE POSTER
-    getMoviePoster = () => {
-        Axios.get(urlApi + 'movie/moviePoster')
+    getMoviePosterPopular = () => {
+        Axios.post(urlApi + 'movie/moviePosterPopular')
             .then((res) => {
                 if (this._isMounted) {
                     console.log(res.data)
@@ -51,7 +52,7 @@ class Home extends Component {
     }
 
     getMoviePosterNew = () => {
-        Axios.get(urlApi + 'movie/moviePosterNew')
+        Axios.post(urlApi + 'movie/moviePosterNew')
             .then((res) => {
                 if (this._isMounted) {
                     console.log(res.data)
@@ -69,7 +70,7 @@ class Home extends Component {
         return (
             <div className='page pb-5' style={{ backgroundColor:'whitesmoke' }}>
                 <Jumbotron />
-
+                
                 {/* Popular Movies */}
                 <div className="container-fluid mt-4 mb-n1">
                     <h4 className='ml-4'>

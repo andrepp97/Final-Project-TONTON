@@ -5,7 +5,9 @@ import { connect } from "react-redux"
 import { urlApi } from '../../3.helpers/database'
 import { navItemChange } from '../../redux/1.actions'
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow } from "mdbreact"
-let Scroll = require('react-scroll')
+import loadingImg from '../../img/illustrations/loading.svg'
+import Scroll from 'react-scroll'
+
 let scroll = Scroll.animateScroll
 
 
@@ -29,8 +31,6 @@ class allCast extends Component {
             this.setState({ activePage: currentPage - 1 })
             currentPage -= 1
         }
-
-        // console.log(currentPage)
 
         axios.post(urlApi + 'cast/castList', {
             limit: this.state.itemsPerPage,
@@ -98,6 +98,28 @@ class allCast extends Component {
 
 
     render() {
+        // LOADING //
+        if (this.state.castData.length < 1) {
+            return (
+                <div className='container py-5 text-center'>
+                    <h1 className='py-5'>Preparing Artists</h1>
+                    <div className='d-flex justify-content-center my-4'>
+                        <div className="spinner-grow text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                        <div className="spinner-grow text-success mx-2" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                        <div className="spinner-grow text-info" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <img src={loadingImg} height='300px' className='mt-5' alt="Thank You For Your Patience" />
+                </div>
+            )
+        }
+        // LOADING //
+
         return (
             <div className='page movie-backdrop2'>
                 {/* Top Spacing Purpose */}
@@ -106,7 +128,7 @@ class allCast extends Component {
 
                 <div className="container-fluid mb-0 pt-3">
                     <h4 className='ml-4 pb-2 white-text text-center text-uppercase'>
-                        Popular Cast
+                        Popular Artists
                     </h4>
                 </div>
 

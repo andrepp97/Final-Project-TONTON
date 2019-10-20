@@ -12,14 +12,12 @@ class PageNotFound extends Component {
 
     render() {
         return (
-            <div className='page bg-secondary text-center'>
-                <h1 className='bg-dark py-3'>&nbsp;</h1>
-                <h2 className='py-3'>PAGE NOT FOUND</h2>
+            <div className='page bg-dark text-center p-5'>
+                <h1 className='py-5 mt-5 white-text'>PAGE NOT FOUND</h1>
                 <img
                     src={notFound}
                     alt="Page Not Found"
-                    className='pb-5 pt-4'
-                    style = {{ height:'75vh' }}
+                    height='325px'
                 />
             </div>
         );

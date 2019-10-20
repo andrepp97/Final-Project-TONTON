@@ -22,7 +22,7 @@ const Footer = () => {
                                 </a>
                             </li>
                             <li className="list-inline-item">
-                                <a href="https://github.com/andrepp97/Final-Project-TONTON" target='_blank' rel="noopener noreferrer">
+                                <a href="https://github.com/andrepp97?tab=repositories" target='_blank' rel="noopener noreferrer">
                                     <MDBIcon fab icon="github" style={{ fontSize: '24px' }} />
                                 </a>
                             </li>

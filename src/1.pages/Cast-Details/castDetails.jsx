@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 import { urlApi } from '../../3.helpers/database'
 import { navItemChange } from '../../redux/1.actions'
 import { MDBCardImage, MDBCard } from "mdbreact"
-let Scroll = require('react-scroll')
+import Scroll from 'react-scroll'
+
 let scroll = Scroll.animateScroll
 
 
