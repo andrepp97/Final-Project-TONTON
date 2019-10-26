@@ -21,7 +21,7 @@ class allMovies extends Component {
     state = {
         moviePoster: [],
         moviePosterNew: [],
-        itemsPerPage: 30,
+        itemsPerPage: 24,
         activePage: 1
     }
 

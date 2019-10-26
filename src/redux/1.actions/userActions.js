@@ -73,7 +73,12 @@ export const keepLogin = (token) => {
             .then(res => {
                 dispatch({
                     type: LOGIN_SUCCESS,
-                    payload: res.data
+                    payload: {
+                        id: res.data.id,
+                        username: res.data.username,
+                        email: res.data.email,
+                        role: res.data.roleName
+                    }
                 })
             })
             .catch(err => {

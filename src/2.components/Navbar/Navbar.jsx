@@ -7,10 +7,11 @@ import {
 } from "mdbreact"
 import { userLogout } from '../../redux/1.actions'
 import windowSize from 'react-window-size'
-import Logo from '../../img/tonton.png'
+import ReactTooltip from 'react-tooltip'
 
 
 // STYLING //
+import Logo from '../../img/tonton.png'
 import '../../App.css'
 import './Navbar.css'
 // STYLING //
@@ -40,8 +41,12 @@ class AppBar extends Component {
 
 
     render() {
+        if (this.props.activeTab === 'ADMIN') {
+            return null
+        }
+
         return (
-                <MDBNavbar color="deep-purple" dark expand="lg" scrolling transparent fixed='top'>
+                <MDBNavbar color="deep-purple" dark scrolling transparent fixed='top' expand="lg">
                     <MDBNavbarBrand>
                         <MDBNavLink to='/home'>
                             <img src={Logo} alt="tonton.id" height='72px' className='my-n4' />                            
@@ -116,23 +121,39 @@ class AppBar extends Component {
                                             <p className='mt-n2 mr-2' style={{fontSize:'12px', color:'grey'}}>{this.props.email}</p>
                                         </MDBCard>
 
-                                        <MDBDropdownItem className='dropItem'><MDBIcon icon="rocket" />
-                                            <Link className='text-decoration-none' to='/subscription'>
-                                                <span style={{marginLeft:'2px', fontSize:'16px'}}>Subscriptions</span>
-                                            </Link>
-                                        </MDBDropdownItem>
-                                        <MDBDropdownItem className='dropItem'><MDBIcon icon="bookmark" />
-                                            <Link className='text-decoration-none' to='/watchlist'>
-                                                <span style={{marginLeft:'6px', fontSize:'16px'}}>Watchlist</span>
-                                            </Link>
-                                        </MDBDropdownItem>
+                                    {
+                                        this.props.roleUser === 'Admin' || this.props.roleUser === 'Super Admin'
+                                        ?       
+                                            <MDBDropdownItem>
+                                                <Link to='/admin-dashboard' className='text-decoration-none'>
+                                                    <MDBIcon icon="chart-pie" />
+                                                    <span className='ml-2'>Dashboard</span>
+                                                </Link>
+                                            </MDBDropdownItem>
+                                        :
+                                        <>
+                                            <MDBDropdownItem>
+                                                <Link to='/subscription' className='text-decoration-none'>
+                                                    <MDBIcon icon="rocket" />
+                                                    <span className='ml-2'>Subscriptions</span>
+                                                </Link>
+                                            </MDBDropdownItem>
+                                            <MDBDropdownItem>
+                                                <Link to='/watchlist' className='text-decoration-none'>
+                                                    <MDBIcon icon="clock" />
+                                                    <span className='ml-2'>Watchlist</span>
+                                                </Link>
+                                            </MDBDropdownItem>
+                                        </>
+                                    }
 
-                                        <MDBDropdownItem divider></MDBDropdownItem>
-                                        <MDBDropdownItem className='dropItem' style={{ fontSize: '14px' }} onClick={this.onLogout}>
-                                            <Link style={{ textDecoration: 'none', marginLeft: '-10px' }} to='/home'>
-                                                <MDBIcon icon="power-off" /><span style={{marginLeft:'12px', fontSize:'15px'}}>Logout</span>
-                                            </Link>
+                                        <MDBDropdownItem divider />
+                                        <MDBDropdownItem className='text-center' onClick={this.onLogout}>
+                                            <MDBBtn color='red' className='white-text w-50' data-tip='Logout'>
+                                                <MDBIcon icon="power-off" />
+                                            </MDBBtn>
                                         </MDBDropdownItem>
+                                        <ReactTooltip place="left" />
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>
@@ -150,7 +171,7 @@ class AppBar extends Component {
                         </MDBNavbarNav>
                     </MDBCollapse>
                 </MDBNavbar>
-        );
+        )
     }
 }
 
@@ -158,7 +179,7 @@ const mapStateToProps = (state) => {
     return {
         id: state.user.id,
         name: state.user.username,
-        role: state.user.role,
+        roleUser: state.user.role,
         email: state.user.email,
         activeTab: state.user.activeTab
     }

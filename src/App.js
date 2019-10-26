@@ -23,6 +23,7 @@ import allCast from './1.pages/Cast-All/allCast'
 import CastDetails from "./1.pages/Cast-Details/castDetails"
 import PlayMovie from './1.pages/Play/Play'
 import SearchResult from './1.pages/searchResult/SearchResult'
+import AdminDashboard from './1.pages/Admin/adminDashboard'
 import Footer from './2.components/Footer/Footer'
 import PageNotFound from './1.pages/404'
 // IMPORT PAGES & COMPONENTS //
@@ -108,6 +109,7 @@ class App extends Component {
                   <Route component={MovieDetails} path='/movie-details/:id' exact />
                   <Route component={PlayMovie} path='/play/:idMov' exact />
                   <Route component={SearchResult} path='/searchResult' exact />
+                  <Route component={AdminDashboard} path='/admin-dashboard' exact />
                   <Route component={PageNotFound} path='*' />
                 </Switch>
               </div>

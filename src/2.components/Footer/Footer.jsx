@@ -1,11 +1,21 @@
-import React from "react";
-import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdbreact";
+import React from "react"
+import {connect} from 'react-redux'
+import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdbreact"
+import windowSize from 'react-window-size'
 import Logo from '../../img/tonton.png'
 
 
-const Footer = () => {
+const Footer = (props) => {
     return (
-        <MDBFooter color="black" className="font-small pt-5 pb-3" style={{opacity:.95}}>
+        <MDBFooter
+            color="black"
+            className="font-small pt-5 pb-3"
+            style={
+                props.activeTab === 'ADMIN'
+                ? props.windowWidth < 752 ? {marginLeft: '80px'} : {marginLeft: '200px'}
+                : {marginLeft: '0px'}
+            }
+        >
             <MDBContainer className="text-center text-md-left">
                 <MDBRow>
                     <MDBCol md="6 pl-5 mt-n3">
@@ -45,12 +55,19 @@ const Footer = () => {
                 </MDBRow>
             </MDBContainer>
             <div className="footer-copyright text-center py-3">
-                <MDBContainer className='border-top border-bottom py-3'>
-                    &copy; {new Date().getFullYear()} Copyright by <a href="http://andreputerap.firebaseapp.com" target='_blank' rel="noopener noreferrer"> Andre Putera Pratama </a>
+                <MDBContainer className='border-top border-bottom py-4 w-100'>
+                    &copy; {new Date().getFullYear()} Copyright by
+                    <a href="http://andreputerap.firebaseapp.com" target='_blank' rel="noopener noreferrer"> Andre Putera Pratama</a>
                 </MDBContainer>
             </div>
         </MDBFooter>
     );
 }
 
-export default Footer;
+const mapStateToProps = (state) => {
+    return {
+        activeTab: state.user.activeTab
+    }
+}
+
+export default connect(mapStateToProps)(windowSize(Footer));

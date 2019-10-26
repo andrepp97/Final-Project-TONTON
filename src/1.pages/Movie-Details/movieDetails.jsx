@@ -3,7 +3,7 @@ import moment from 'moment'
 import Axios from 'axios'
 import windowSize from 'react-window-size'
 import Scroll from 'react-scroll'
-import ReactTooltip from 'react-tooltip';
+import ReactTooltip from 'react-tooltip'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ToastContainer, toast, Flip } from 'react-toastify'
@@ -147,7 +147,7 @@ class movieDetails extends Component {
                 {/* Top Spacing Purpose */}
 
                 {/* TOASTIFY & ToolTip CONTAINER */}
-                <ReactTooltip place="top" type="dark" />
+                <ReactTooltip />
                 <ToastContainer
                     position="top-center"
                     autoClose={2000}
@@ -276,24 +276,23 @@ class movieDetails extends Component {
                                 {this.state.movieData.synopsis}
                             </p>
                             
-                            {/* Modal */}
-                            {this.state.showTrailer ?
-                                <MDBModal isOpen={this.state.showTrailer} toggle={() => this.setState({ showTrailer: false })} centered size="lg">
-                                    <MDBModalHeader toggle={() => this.setState({ showTrailer: false })}>
-                                        {this.state.movieData.movieName} Trailer
-                                    </MDBModalHeader>
-                                    <MDBModalBody className='p-0'>
-                                        <iframe title="Trailer"
-                                                width={ this.props.windowWidth < 975 ? 500 : 800 }
-                                                height={450}
-                                                src={this.state.movieData.trailer}
-                                                frameBorder="0"
-                                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                                allowFullScreen="allowFullScreen">
-                                        </iframe>
-                                    </MDBModalBody>
-                                </MDBModal>
-                            : null}
+                            {/* TRAILER MODAL */}
+                            <MDBModal isOpen={this.state.showTrailer} toggle={() => this.setState({ showTrailer: false })} centered size="lg">
+                                <MDBModalHeader toggle={() => this.setState({ showTrailer: false })}>
+                                    {this.state.movieData.movieName} Trailer
+                                </MDBModalHeader>
+                                <MDBModalBody className='p-0'>
+                                    <iframe title="Trailer"
+                                            width={ this.props.windowWidth < 975 ? 500 : 800 }
+                                            height={450}
+                                            src={this.state.movieData.trailer}
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen="allowFullScreen">
+                                    </iframe>
+                                </MDBModalBody>
+                            </MDBModal>
+                            {/* TRAILER MODAL */}
                         </div>
                     </div>
 
