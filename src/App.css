@@ -12,7 +12,7 @@
     background-attachment: fixed;
 }
 .wallpaper2 {
-    background: linear-gradient(rgba(0, 0, 0, 0.875), rgba(0, 0, 0, 0.975)),
+    background: linear-gradient(rgba(0, 0, 0, 0.925), rgba(0, 0, 0, 0.975)),
         url('./img/avengers-backdrop2.jpg');
     background-size: cover;
     background-attachment: fixed;

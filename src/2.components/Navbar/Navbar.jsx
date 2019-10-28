@@ -7,7 +7,6 @@ import {
 } from "mdbreact"
 import { userLogout } from '../../redux/1.actions'
 import windowSize from 'react-window-size'
-import ReactTooltip from 'react-tooltip'
 
 
 // STYLING //
@@ -96,6 +95,7 @@ class AppBar extends Component {
                         {/* SEARCH BAR */}
                             <MDBNavItem>
                                     <input
+                                        className='navbarSearch'
                                         type="search"
                                         placeholder={ this.state.searchFocus ? "Type something and hit Enter" : "Search" }
                                         onFocus={() => this.setState({searchFocus:true})}
@@ -148,12 +148,10 @@ class AppBar extends Component {
                                     }
 
                                         <MDBDropdownItem divider />
-                                        <MDBDropdownItem className='text-center' onClick={this.onLogout}>
-                                            <MDBBtn color='red' className='white-text w-50' data-tip='Logout'>
-                                                <MDBIcon icon="power-off" />
-                                            </MDBBtn>
+                                        <MDBDropdownItem style={{paddingLeft:'34px'}} onClick={this.onLogout}>
+                                            <MDBIcon icon="power-off" />
+                                            <span className='ml-2'>Logout</span>
                                         </MDBDropdownItem>
-                                        <ReactTooltip place="left" />
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>

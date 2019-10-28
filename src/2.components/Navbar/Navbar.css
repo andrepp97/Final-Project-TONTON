@@ -8,7 +8,7 @@ input::-webkit-search-cancel-button {
 }
 
 
-input[type=search] {
+.navbarSearch {
     -webkit-appearance: textfield;
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
@@ -31,7 +31,7 @@ input[type=search] {
     transition: all .4s ease-in-out;
 }
 
-input[type=search]:focus {
+.navbarSearch:focus {
     width: 15rem;
     background-color: #fff;
     border-color: #673AB7;

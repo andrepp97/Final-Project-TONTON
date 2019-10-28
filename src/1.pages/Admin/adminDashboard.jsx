@@ -13,6 +13,8 @@ import './admin.css'
 // IMPORT ADMIN PAGES //
 import ManageUser from './AdminPage/ManageUser'
 import ManageMovies from './AdminPage/ManageMovies'
+import ManageGenre from './AdminPage/ManageGenre'
+import ManageArtist from './AdminPage/ManageArtist'
 // IMPORT ADMIN PAGES //
 
 let scroll = Scroll.animateScroll
@@ -113,6 +115,8 @@ class adminDashoard extends Component {
                     {/* ADMIN SWITCH CONTENT */}
                     {this.state.selectedTab === 'Users' ? <ManageUser /> : null}
                     {this.state.selectedTab === 'Movies' ? <ManageMovies /> : null}
+                    {this.state.selectedTab === 'Genres' ? <ManageGenre /> : null}
+                    {this.state.selectedTab === 'Artists' ? <ManageArtist /> : null}
                     {/* ADMIN SWITCH CONTENT */}
                 </div>
             </div>

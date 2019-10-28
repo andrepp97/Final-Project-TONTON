@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import ReactTooltip from 'react-tooltip'
 import moment from 'moment';
 import Axios from 'axios';
 import {connect} from 'react-redux';
-import { urlApi } from '../../../3.helpers/database';
+import { urlApi } from '../../../3.helpers/database'
 import {
     MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon,
     MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter
-} from 'mdbreact';
+} from 'mdbreact'
 
 
 class ManageUser extends Component {
@@ -220,7 +220,17 @@ class ManageUser extends Component {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {this.renderUserData()}
+                        {
+                            this.state.userData.length < 1
+                            ?
+                            <tr>
+                                <td colSpan='7' className='text-center white-text bg-danger py-4'>
+                                    Looks like there is no user data.
+                                </td>
+                            </tr>
+                            :
+                            this.renderUserData()
+                        }
                     </MDBTableBody>
                 </MDBTable>
 
