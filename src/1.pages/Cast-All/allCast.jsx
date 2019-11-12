@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
+import Scroll from 'react-scroll'
 import axios from 'axios'
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import { urlApi } from '../../3.helpers/database'
 import { navItemChange } from '../../redux/1.actions'
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow } from "mdbreact"
-import loadingImg from '../../img/illustrations/loading.svg'
-import Scroll from 'react-scroll'
+import LoadingScreen from '../../2.components/Loadings/loadingScreen'
+
 
 let scroll = Scroll.animateScroll
 
@@ -84,8 +85,8 @@ class allCast extends Component {
     renderAllCast = () => {
         let jsx = this.state.castData.map(val => {
             return (
-                <div key={val.id} style={{ width: "12rem" }} className='card rounded mx-4 my-4'>
-                    <Link to={`/cast-details/${val.id}`} className='text-decoration-none text-dark'>
+                <div key={val.id} style={{ width: "12rem" }} className='card rounded my-4 mx-4'>
+                    <Link to={`/cast-details/${val.id}`} className='text-decoration-none rounded text-dark img-artist'>
                         <img className="img-fluid rounded-top opacity-90" src={val.image} alt={val.castName} />
                         <h6 className='text-center font-weight-bold pt-2 px-1'>{val.castName}</h6>
                     </Link>
@@ -100,28 +101,12 @@ class allCast extends Component {
     render() {
         // LOADING //
         if (this.state.castData.length < 1) {
-            return (
-                <div className='container py-5 text-center'>
-                    <h1 className='py-5'>Preparing Artists</h1>
-                    <div className='d-flex justify-content-center my-4'>
-                        <div className="spinner-grow text-primary" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                        <div className="spinner-grow text-success mx-2" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                        <div className="spinner-grow text-info" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                    <img src={loadingImg} height='300px' className='mt-5' alt="Thank You For Your Patience" />
-                </div>
-            )
+            return <LoadingScreen />
         }
         // LOADING //
 
         return (
-            <div className='page movie-backdrop2'>
+            <div className='page main-backdrop'>
                 {/* Top Spacing Purpose */}
                 <h1 className='mb-5'>&nbsp;</h1>
                 {/* Top Spacing Purpose */}
@@ -135,7 +120,7 @@ class allCast extends Component {
                 <div className="container-fluid pb-5">
 
                     {/* RENDER ALL CAST */}
-                    <div className="row justify-content-center mb-5">
+                    <div className="row justify-content-center mb-5 px-5">
                         {this.renderAllCast()}
                     </div>
                     {/* RENDER ALL CAST */}

@@ -53,51 +53,26 @@ class AppBar extends Component {
                     </MDBNavbarBrand>
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-                        <MDBNavbarNav left className='my-0' style={{fontSize:'14px', letterSpacing:'1px'}}>
-                            {
-                                this.props.activeTab === 'DISCOVER'
-                                ?
-                                <MDBNavItem className='font-weight-bold' active>
-                                    <MDBNavLink to='/home'>DISCOVER</MDBNavLink>
-                                </MDBNavItem>
-                                :
-                                <MDBNavItem className='font-weight-bold'>
-                                    <MDBNavLink to='/home'>DISCOVER</MDBNavLink>
-                                </MDBNavItem>
-                            }
-
-                            {
-                                this.props.activeTab === 'MOVIES'
-                                ?
-                                <MDBNavItem className='font-weight-bold' active>
-                                    <MDBNavLink to='/movies'>MOVIES</MDBNavLink>
-                                </MDBNavItem>
-                                :
-                                <MDBNavItem className='font-weight-bold' >
-                                    <MDBNavLink to='/movies'>MOVIES</MDBNavLink>
-                                </MDBNavItem>
-                            }
-
-                            {
-                                this.props.activeTab === 'CAST'
-                                ?
-                                <MDBNavItem className='font-weight-bold' active>
-                                    <MDBNavLink to='/cast'>ARTISTS</MDBNavLink>
-                                </MDBNavItem>
-                                :
-                                <MDBNavItem className='font-weight-bold'>
-                                    <MDBNavLink to='/cast'>ARTISTS</MDBNavLink>
-                                </MDBNavItem>
-                            }
+                        {/* NAV MENU */}
+                        <MDBNavbarNav left style={{fontSize:'14px', letterSpacing:'1px'}}>
+                            <MDBNavItem active={this.props.activeTab === 'DISCOVER' ? true : false}>
+                                <MDBNavLink to='/home'>DISCOVER</MDBNavLink>
+                            </MDBNavItem>
+                            <MDBNavItem active={this.props.activeTab === 'MOVIES' ? true : false}>
+                                <MDBNavLink to='/movies'>MOVIES</MDBNavLink>
+                            </MDBNavItem>
+                            <MDBNavItem active={this.props.activeTab === 'CAST' ? true : false}>
+                                <MDBNavLink to='/cast'>ARTISTS</MDBNavLink>
+                            </MDBNavItem>
                         </MDBNavbarNav>
-
+                        {/* NAV MENU */}
                         <MDBNavbarNav right>
                         {/* SEARCH BAR */}
                             <MDBNavItem>
                                     <input
                                         className='navbarSearch'
                                         type="search"
-                                        placeholder={ this.state.searchFocus ? "Type something and hit Enter" : "Search" }
+                                        placeholder={ this.state.searchFocus ? "Find Movies or Artists . . ." : "Search" }
                                         onFocus={() => this.setState({searchFocus:true})}
                                         onBlur={() => this.setState({searchFocus:false})}
                                         onChange={(e) => this.setState({searchValue: e.target.value})}
@@ -118,7 +93,7 @@ class AppBar extends Component {
                                     <MDBDropdownMenu right>
                                         <MDBCard className='mt-n2 pt-3 px-4 mb-3'>
                                             <p className='font-weight-bold'>{this.props.name}</p>
-                                            <p className='mt-n2 mr-2' style={{fontSize:'12px', color:'grey'}}>{this.props.email}</p>
+                                            <p className='mt-n2 mr-2 text-dark'>{this.props.email}</p>
                                         </MDBCard>
 
                                     {
@@ -139,13 +114,19 @@ class AppBar extends Component {
                                                 </Link>
                                             </MDBDropdownItem>
                                             <MDBDropdownItem>
-                                                <Link to='/watchlist' className='text-decoration-none'>
-                                                    <MDBIcon icon="clock" />
-                                                    <span className='ml-2'>Watchlist</span>
+                                                <Link to='/my-bills' className='text-decoration-none'>
+                                                    <MDBIcon icon="receipt" />
+                                                    <span className='ml-2'> My Bills</span>
                                                 </Link>
                                             </MDBDropdownItem>
                                         </>
                                     }
+                                    <MDBDropdownItem>
+                                        <Link to='/watchlist' className='text-decoration-none'>
+                                            <MDBIcon icon="clock" />
+                                            <span className='ml-2'>My Watchlist</span>
+                                        </Link>
+                                    </MDBDropdownItem>
 
                                         <MDBDropdownItem divider />
                                         <MDBDropdownItem style={{paddingLeft:'34px'}} onClick={this.onLogout}>

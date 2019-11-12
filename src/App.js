@@ -9,6 +9,7 @@ import {TransitionGroup, CSSTransition} from 'react-transition-group'
 // IMPORT LIBRARY //
 
 // IMPORT PAGES & COMPONENTS //
+import LoadingScreen from './2.components/Loadings/loadingScreen'
 import Navbar from './2.components/Navbar/Navbar'
 import Home from './1.pages/Home/Home'
 import Login from './1.pages/Login/Login'
@@ -16,6 +17,8 @@ import Signup from './1.pages/Signup/Signup'
 import EmailVerification from './1.pages/EmailVerifying/EmailVerification'
 import EmailVerified from './1.pages/EmailVerified/EmailVerified'
 import Subscription from './1.pages/Subscription/Subscription'
+import PaymentPage from './1.pages/Subscription/Payment'
+import BillsPage from './1.pages/Subscription/MyBills'
 import Watchlist from './1.pages/Watchlist/Watchlist'
 import allMovies from './1.pages/Movies-All/allMovies'
 import MovieDetails from './1.pages/Movie-Details/movieDetails'
@@ -27,10 +30,6 @@ import AdminDashboard from './1.pages/Admin/adminDashboard'
 import Footer from './2.components/Footer/Footer'
 import PageNotFound from './1.pages/404'
 // IMPORT PAGES & COMPONENTS //
-
-// IMPORT IMAGES //
-import loadingImg from './img/illustrations/loading.svg'
-// IMPORT IMAGES //
 
 
 class App extends Component {
@@ -64,23 +63,7 @@ class App extends Component {
     const timeout = { enter:650, exit:650 }
 
     if (!this.props.userObject.checker) {
-      return(
-        <div className='container py-5 text-center'>
-          <h1 className='py-5'>Preparing Your Movies</h1>
-          <div className='d-flex justify-content-center my-4'>
-              <div className="spinner-grow text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-              </div>
-              <div className="spinner-grow text-success mx-2" role="status">
-                  <span className="sr-only">Loading...</span>
-              </div>
-              <div className="spinner-grow text-info" role="status">
-                  <span className="sr-only">Loading...</span>
-              </div>
-          </div>
-          <img src={loadingImg} height='300px' className='mt-5' alt="Thank You For Your Patience" />
-        </div>
-      )
+      return <LoadingScreen/>
     }
 
       return (
@@ -102,6 +85,8 @@ class App extends Component {
                   <Route component={EmailVerification} path='/emailverification' exact />
                   <Route component={EmailVerified} path='/emailverified' exact />
                   <Route component={Subscription} path='/subscription' exact />
+                  <Route component={PaymentPage} path='/user-payment' exact />
+                  <Route component={BillsPage} path='/my-bills' exact />
                   <Route component={Watchlist} path='/watchlist' exact />
                   <Route component={allMovies} path='/movies' exact />
                   <Route component={allCast} path='/cast' exact />
@@ -126,4 +111,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { keepLogin })(withRouter(App))
+export default withRouter(
+  connect(mapStateToProps, { keepLogin })(App)
+  )

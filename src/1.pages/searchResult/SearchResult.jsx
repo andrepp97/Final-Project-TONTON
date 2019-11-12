@@ -4,10 +4,10 @@ import axios from 'axios'
 import ReactTooltip from 'react-tooltip'
 import { Link } from "react-router-dom"
 import { urlApi } from "../../3.helpers/database"
+import LoadingScreen from '../../2.components/Loadings/loadingScreen'
 
 // IMPORT IMG //
 import NoResults from '../../img/illustrations/no_data.svg'
-import loadingImg from '../../img/illustrations/loading.svg'
 // IMPORT IMG //
 
 
@@ -111,30 +111,14 @@ class SearchResult extends Component {
     render() {
         // LOADING //
         if (!this._isMounted) {
-           return (
-               <div className='container py-5 text-center'>
-                   <h1 className='py-5'>Preparing Your Results</h1>
-                   <div className='d-flex justify-content-center my-4'>
-                       <div className="spinner-grow text-primary" role="status">
-                           <span className="sr-only">Loading...</span>
-                       </div>
-                       <div className="spinner-grow text-success mx-2" role="status">
-                           <span className="sr-only">Loading...</span>
-                       </div>
-                       <div className="spinner-grow text-info" role="status">
-                           <span className="sr-only">Loading...</span>
-                       </div>
-                   </div>
-                   <img src={loadingImg} height='300px' className='mt-5' alt="Thank You For Your Patience" />
-               </div>
-           )
+           return <LoadingScreen />
         }
         // LOADING //
 
         // NO RESULTS CONDITION //
         if (this.state.searchedMovies.length < 1 && this.state.searchedCast < 1) {
             return (
-                <div className='bg-dark p-5 text-center'>
+                <div className='p-5 text-center badge-dark'>
                     <img src={NoResults} className='pt-5 mt-5' height='325px' alt="No Results" />
                     <div className='white-text p-5'>
                         <h2 className='font-weight-bold'>NO RESULTS</h2>
@@ -149,7 +133,7 @@ class SearchResult extends Component {
 
         // RETURN WITH RESULTS //
         return (
-            <div className='pb-5 bg-dark'>
+            <div className='pb-5 badge-dark'>
                 {/* Top Spacing Purpose */}
                 <h1 className='mb-5'>&nbsp;</h1>
                 <ReactTooltip place="top" type="dark" effect="float"/>

@@ -68,7 +68,7 @@ class Home extends Component {
     
     render() {
         return (
-            <div className='page pb-5' style={{ backgroundColor:'whitesmoke' }}>
+            <div className='page main-backdrop pb-5 white-text'>
                 <Jumbotron />
                 
                 {/* Popular Movies */}

@@ -149,7 +149,7 @@ class allMovies extends Component {
         // LOADING //
 
         return (
-            <div className='page movie-backdrop2 pb-5'>
+            <div className='page main-backdrop pb-5'>
                 {/* Top Spacing Purpose */}
                 <h1 className='mb-5'>&nbsp;</h1>
                 {/* Top Spacing Purpose */}

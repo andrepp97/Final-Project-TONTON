@@ -101,7 +101,7 @@ class castDetails extends Component {
     
     render() {
         return (
-            <div className='page movie-backdrop2'>
+            <div className='page main-backdrop'>
                 {/* Top Spacing Purpose */}
                 <div className='mb-5'>&nbsp;</div>
                 {/* Top Spacing Purpose */}

@@ -6,6 +6,10 @@ import Logo from '../../img/tonton.png'
 
 
 const Footer = (props) => {
+    if (props.activeTab === 'PAYMENT') {
+        return null
+    }
+
     return (
         <MDBFooter
             color="black"

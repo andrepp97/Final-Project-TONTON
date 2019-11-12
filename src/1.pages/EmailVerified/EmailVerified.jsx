@@ -19,15 +19,20 @@ class EmailVerified extends Component {
         window.scrollTo(0, 0)
         
         var params = queryString.parse(this.props.location.search)
+        var options = {
+            headers: {
+                'Authorization': `Bearer ${params.token}`
+            }
+        }
 
-        axios.post(urlApi + 'user/emailConfirmed', {
-            email: params.email
-        }).then(res => {
+        axios.post(urlApi + 'user/emailConfirmed', {}, options)
+        .then(res => {
             console.log(res)
             this.setState({ message: 'Email Confirmed Successfully!' })
             localStorage.setItem('token', res.data.token)
             this.props.confirmLogin(res.data)
-        }).catch(err => {
+        })
+        .catch(err => {
             console.log(err.response)
             this.setState({ message: 'Email Confirm Failed!' })
         })

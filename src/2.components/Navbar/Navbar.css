@@ -32,7 +32,7 @@ input::-webkit-search-cancel-button {
 }
 
 .navbarSearch:focus {
-    width: 15rem;
+    width: 14rem;
     background-color: #fff;
     border-color: #673AB7;
 

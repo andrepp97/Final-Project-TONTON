@@ -10,6 +10,9 @@ import { navItemChange } from '../../redux/1.actions'
 import { ToastContainer, toast, Flip } from 'react-toastify'
 import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from 'mdbreact'
 
+// Import IMG //
+import noData from "../../img/illustrations/no_data.svg"
+
 let scroll = Scroll.animateScroll
 
 
@@ -38,12 +41,17 @@ class Watchlist extends Component {
     // GET DATA //
     getWatchlistData = () => {
         Axios.post(urlApi + 'watchlist/getUserWatchlist', {
-            idUser: this.props.userObject.id
+            idUser: this.props.id
         }).then(res => {
             if (this._isMounted) {
+                // GET LAST ADDED DATE //
+                if (res.data.length > 0) {
+                    this.setState({ lastAdded: res.data[0].created_date })
+                }
+
+                // WATCHLIST DATA //
                 this.setState({
-                    userWatchlist: res.data,
-                    lastAdded: res.data[0].created_date
+                    userWatchlist: res.data
                 })
             }
         }).catch(err => {
@@ -55,11 +63,11 @@ class Watchlist extends Component {
     // BUTTONS //
     removeFromWatchlist = (idMov) => {
         Axios.post(urlApi + 'watchlist/removeFromWatchlist', {
-            idUser: this.props.userObject.id,
+            idUser: this.props.id,
             idMov
         }).then(res => {
-            toast.error('Removed from Watchlist')
             this.getWatchlistData()
+            toast.error('Removed from Watchlist')
         }).catch(err => {
             console.log(err)
         })
@@ -70,9 +78,9 @@ class Watchlist extends Component {
     renderUserWatchlist = () => {
         return this.state.userWatchlist.map((val, idx) => {
             return (
-                <tr key={idx} className='text-center white-text'>
-                    <td className='py-5'>{idx+1}</td>
-                    <td>
+                <tr key={idx} className='white-text'>
+                    <td className='py-5 text-center font-weight-bold'>{idx+1}</td>
+                    <td className='text-center'>
                         <Link to={`/movie-details/${val.idMov}`} className='text-decoration-none white-text'>
                             <img
                                 src={val.poster}
@@ -89,7 +97,7 @@ class Watchlist extends Component {
                             </h6>
                         </Link>
                     </td>
-                    <td style={{paddingTop:'32px'}}>
+                    <td style={{paddingTop:'32px', textAlign:'center'}}>
                         <MDBBtn color='red'
                                 className='white-text'
                                 data-tip='Remove from Watchlist'
@@ -107,12 +115,31 @@ class Watchlist extends Component {
 
     
     render() {
-        if (this.props.userObject.username === '' && this.props.userObject.role === '') {
+        // REDIRECT TO HOME IF USER NOT LOGIN //
+        if (this.props.username === '') {
             return <Redirect to='/home'></Redirect>
         }
 
+        // DISPLAY WHEN THERE IS NO DATA //
+        if (this.state.userWatchlist.length < 1) {
+            return (
+                <div className="wallpaper2 page py-5">
+                    <div className="container py-5 text-center">
+                        <img src={noData} height="360px" alt="No Data"/>
+                        <h5 className='white-text my-4'>You have no watchlist for now.</h5>
+                        <Link to='/'>
+                            <MDBBtn color='deep-purple' className='white-text'>
+                                Discover Movies
+                            </MDBBtn>
+                        </Link>
+                    </div>
+                </div>
+            )
+        }
+
+        // MAIN DISPLAY //
         return (
-            <div className='wallpaper2 page'>
+            <div className='page badge-dark'>
                 {/* Top Spacing Purpose */}
                 <div className='mb-5'>&nbsp;</div>
                 {/* Top Spacing Purpose */}
@@ -158,17 +185,7 @@ class Watchlist extends Component {
                             </tr>
                         </MDBTableHead>
                         <MDBTableBody>
-                            {
-                                this.state.userWatchlist.length < 1
-                                    ?
-                                    <tr>
-                                        <td colSpan='4' className='text-center white-text bg-danger py-4'>
-                                            You have no Watchlist.
-                                        </td>
-                                    </tr>
-                                    :
-                                    this.renderUserWatchlist()
-                            }
+                            {this.renderUserWatchlist()}
                         </MDBTableBody>
                     </MDBTable>
                 </div>
@@ -178,9 +195,7 @@ class Watchlist extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-        userObject: state.user
-    }
+    return state.user
 }
 
 export default connect(mapStateToProps, { navItemChange })(Watchlist)

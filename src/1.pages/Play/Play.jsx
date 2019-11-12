@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { connect } from "react-redux"
-import { Redirect } from "react-router-dom"
 import axios from 'axios'
 import Scroll from 'react-scroll'
+import { connect } from "react-redux"
+import { Redirect } from "react-router-dom"
 import { urlApi } from '../../3.helpers/database'
 
 // Video-React //
@@ -20,7 +20,8 @@ class Play extends Component {
     _isMounted = false
 
     state = {
-        movieUrl: ''
+        movieUrl: '',
+        moviePoster: ''
     }
 
     // LIFECYCLE //
@@ -43,7 +44,7 @@ class Play extends Component {
             idMov
         }).then(res => {
             if (this._isMounted) {
-                this.setState({ movieUrl: res.data.filePath })
+                this.setState({ movieUrl: res.data.filePath, moviePoster: res.data.poster })
             }
         }).catch(err => {
             console.log(err)
@@ -55,15 +56,18 @@ class Play extends Component {
         if (this.props.name === '') {
             return <Redirect to='/' />
         }
+        
         return (
             <div>
                 <h3 className='pb-5 mb-0 btn-deep-purple'>&nbsp;</h3>
                 <Player
                     src={urlApi.slice(0,urlApi.length-1) + this.state.movieUrl}
+                    poster={this.state.moviePoster}
                     fluid={false}
                     width={window.innerWidth - (1 / 100 * window.innerWidth)}
                     height={window.innerHeight - (12.5 / 100 * window.innerHeight)}
                     playsInline
+                    autoPlay
                     track
                     >
                     <BigPlayButton position="center" />

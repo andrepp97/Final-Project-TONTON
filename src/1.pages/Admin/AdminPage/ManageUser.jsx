@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import ReactTooltip from 'react-tooltip'
-import moment from 'moment';
-import Axios from 'axios';
-import {connect} from 'react-redux';
+import moment from 'moment'
+import Axios from 'axios'
+import {connect} from 'react-redux'
 import { urlApi } from '../../../3.helpers/database'
 import {
     MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon,
@@ -206,7 +206,7 @@ class ManageUser extends Component {
 
     render() {
         return (
-            <div className='container py-3'>
+            <div className='container py-2'>
                 <MDBTable hover responsive>
                     <MDBTableHead color='dark'>
                         <tr>
@@ -225,7 +225,7 @@ class ManageUser extends Component {
                             ?
                             <tr>
                                 <td colSpan='7' className='text-center white-text bg-danger py-4'>
-                                    Looks like there is no user data.
+                                    <h5>Looks like there is no user data.</h5>
                                 </td>
                             </tr>
                             :

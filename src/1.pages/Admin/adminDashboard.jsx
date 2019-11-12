@@ -41,7 +41,7 @@ class adminDashoard extends Component {
 
 
     render() {
-        if (this.props.roleUser === 'User') {
+        if (this.props.roleUser === 'User' || this.props.name === '') {
             return <Redirect to='/home' />
         }
 
@@ -61,34 +61,70 @@ class adminDashoard extends Component {
                             ?
                             <>
                                 <ReactTooltip place="right" />
-                                <MDBListGroupItem className='item-bro rounded px-3' data-tip="Users" onClick={() => this.setState({selectedTab: 'Users'})}>
+                                <MDBListGroupItem 
+                                    className='item-bro rounded px-3'
+                                    data-tip="Users"
+                                    onClick={() => this.setState({selectedTab: 'Users'})}
+                                    active = {this.state.selectedTab === 'Users' ? true : false}
+                                >
                                     <MDBIcon icon="user"/>
                                 </MDBListGroupItem>
-                                <MDBListGroupItem className='item-bro rounded px-3' data-tip="Movies" onClick={() => this.setState({selectedTab: 'Movies'})}>
+                                <MDBListGroupItem 
+                                    className='item-bro rounded px-3'
+                                    data-tip="Movies"
+                                    onClick={() => this.setState({selectedTab: 'Movies'})}
+                                    active = {this.state.selectedTab === 'Movies' ? true : false}
+                                >
                                     <MDBIcon icon="film"/>
                                 </MDBListGroupItem>
-                                <MDBListGroupItem className='item-bro rounded px-3' data-tip="Genres" onClick={() => this.setState({selectedTab: 'Genres'})}>
+                                <MDBListGroupItem
+                                    className='item-bro rounded px-3'
+                                    data-tip="Genres"
+                                    onClick={() => this.setState({selectedTab: 'Genres'})}
+                                    active = {this.state.selectedTab === 'Genres' ? true : false}
+                                >
                                     <MDBIcon icon="stream"/>
                                 </MDBListGroupItem>
-                                <MDBListGroupItem className='item-bro rounded px-3' data-tip="Artists" onClick={() => this.setState({selectedTab: 'Artists'})}>
+                                <MDBListGroupItem
+                                    className='item-bro rounded px-3'
+                                    data-tip="Artists"
+                                    onClick={() => this.setState({selectedTab: 'Artists'})}
+                                    active = {this.state.selectedTab === 'Artists' ? true : false}
+                                >
                                     <MDBIcon icon="users"/>
                                 </MDBListGroupItem>
                             </>
                             :
                             <>
-                                <MDBListGroupItem className='item-bro rounded-pill' onClick={() => this.setState({selectedTab: 'Users'})}>
+                                <MDBListGroupItem
+                                    className='item-bro rounded-pill'
+                                    onClick={() => this.setState({selectedTab: 'Users'})}
+                                    active = {this.state.selectedTab === 'Users' ? true : false}
+                                >
                                     <MDBIcon icon="user"/>
                                     <span>Users</span>
                                 </MDBListGroupItem>
-                                <MDBListGroupItem className='item-bro rounded-pill' onClick={() => this.setState({selectedTab: 'Movies'})}>
+                                <MDBListGroupItem
+                                    className='item-bro rounded-pill'
+                                    onClick={() => this.setState({selectedTab: 'Movies'})}
+                                    active = {this.state.selectedTab === 'Movies' ? true : false}
+                                >
                                     <MDBIcon icon="film"/>
                                     <span>Movies</span>
                                 </MDBListGroupItem>
-                                <MDBListGroupItem className='item-bro rounded-pill' onClick={() => this.setState({selectedTab: 'Genres'})}>
+                                <MDBListGroupItem 
+                                    className='item-bro rounded-pill'
+                                    onClick={() => this.setState({selectedTab: 'Genres'})}
+                                    active = {this.state.selectedTab === 'Genres' ? true : false}
+                                >
                                     <MDBIcon icon="stream"/>
                                     <span>Genres</span>
                                 </MDBListGroupItem>
-                                <MDBListGroupItem className='item-bro rounded-pill' onClick={() => this.setState({selectedTab: 'Artists'})}>
+                                <MDBListGroupItem 
+                                    className='item-bro rounded-pill'
+                                    onClick={() => this.setState({selectedTab: 'Artists'})}
+                                    active = {this.state.selectedTab === 'Artists' ? true : false}
+                                >
                                     <MDBIcon icon="users"/>
                                     <span>Artists</span>
                                 </MDBListGroupItem>
