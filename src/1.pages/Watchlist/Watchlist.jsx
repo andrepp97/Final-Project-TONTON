@@ -123,7 +123,7 @@ class Watchlist extends Component {
         // DISPLAY WHEN THERE IS NO DATA //
         if (this.state.userWatchlist.length < 1) {
             return (
-                <div className="wallpaper2 page py-5">
+                <div className="main-backdrop page py-5">
                     <div className="container py-5 text-center">
                         <img src={noData} height="360px" alt="No Data"/>
                         <h5 className='white-text my-4'>You have no watchlist for now.</h5>
@@ -139,7 +139,7 @@ class Watchlist extends Component {
 
         // MAIN DISPLAY //
         return (
-            <div className='page badge-dark'>
+            <div className='page main-backdrop'>
                 {/* Top Spacing Purpose */}
                 <div className='mb-5'>&nbsp;</div>
                 {/* Top Spacing Purpose */}

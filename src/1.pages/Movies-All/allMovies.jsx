@@ -7,10 +7,10 @@ import { MDBPageItem, MDBPageNav, MDBRow, MDBCol, MDBPagination } from "mdbreact
 
 import { urlApi } from '../../3.helpers/database'
 import { navItemChange } from '../../redux/1.actions'
-import Carousel from '../../2.components/Carousel/Carousel'
 
-// IMPORT IMG //
-import loadingImg from '../../img/illustrations/loading.svg'
+// IMPORT COMPONENTS //
+import LoadingScreen from '../../2.components/Loadings/loadingScreen'
+import Carousel from '../../2.components/Carousel/Carousel'
 
 let scroll = Scroll.animateScroll
 
@@ -21,8 +21,9 @@ class allMovies extends Component {
     state = {
         moviePoster: [],
         moviePosterNew: [],
-        itemsPerPage: 24,
-        activePage: 1
+        itemsPerPage: 30,
+        activePage: 1,
+        isLoading: false
     }
 
     // PAGINATION PAGE CHANGE //
@@ -70,13 +71,13 @@ class allMovies extends Component {
 
     // GET POSTER //
     getMoviePoster = () => {
+        this.setState({isLoading: true})
         axios.post(urlApi + 'movie/moviePoster', {
             limit: this.state.itemsPerPage,
             offset: this.state.itemsPerPage * (this.state.activePage - 1)
         }).then((res) => {
             if (this._isMounted) {
-                console.log(res.data)
-                this.setState({ moviePoster: res.data })
+                this.setState({ moviePoster: res.data, isLoading: false })
             }
         }).catch((err) => {
             console.log(err)
@@ -103,7 +104,7 @@ class allMovies extends Component {
             return (
                 <Link to={`/movie-details/${val.id}`} key={val.id}
                     className='card rounded text-decoration-none bg-transparent m-3'
-                    style={{ width:'170px' }}>
+                    style={{ width:'170px', height:'250px' }}>
                     <img src={val.poster} className='rounded' width='170px' height='250px' alt={`[POSTER] ${val.movieName}`} />
                         {
                             val.type === 'F'
@@ -127,24 +128,8 @@ class allMovies extends Component {
 
     render() {
         // LOADING //
-        if (this.state.moviePoster.length < 1 || this.state.moviePosterNew.length < 1) {
-            return (
-                <div className='container py-5 text-center'>
-                    <h1 className='py-5'>Preparing Your Movies</h1>
-                    <div className='d-flex justify-content-center my-4'>
-                        <div className="spinner-grow text-primary" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                        <div className="spinner-grow text-success mx-2" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                        <div className="spinner-grow text-info" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                    <img src={loadingImg} height='300px' className='mt-5' alt="Thank You For Your Patience" />
-                </div>
-            )
+        if (this.state.isLoading) {
+            return <LoadingScreen />
         }
         // LOADING //
 
@@ -208,8 +193,8 @@ class allMovies extends Component {
                                         ?
                                         null
                                         :
-                                        <MDBPageItem className='mx-1'>
-                                            <MDBPageNav>{this.state.activePage - 1}</MDBPageNav>
+                                        <MDBPageItem className='px-3 py-1'>
+                                            {this.state.activePage - 1}
                                         </MDBPageItem>
                                 }
 
@@ -227,8 +212,8 @@ class allMovies extends Component {
                                         </MDBPageItem>
                                         :
                                         <>
-                                            <MDBPageItem className='mx-1'>
-                                                <MDBPageNav>{this.state.activePage + 1}</MDBPageNav>
+                                            <MDBPageItem className='px-3 py-1'>
+                                                {this.state.activePage + 1}
                                             </MDBPageItem>
                                             <MDBPageItem className='mx-1' onClick={() => this.pageChange('next')}>
                                                 <MDBPageNav aria-label="Previous">

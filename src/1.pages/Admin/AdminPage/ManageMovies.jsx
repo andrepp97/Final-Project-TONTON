@@ -69,8 +69,28 @@ class ManageMovies extends Component {
 
 
     render() {
+        // LOADING //
+        if (!this._isMounted) {
+            return (
+                <div className="container d-flex justify-content-center py-5">
+                    <div className="spinner-grow text-primary" />
+                    <div className="spinner-grow text-success" />
+                    <div className="spinner-grow text-danger" />
+                </div>
+
+            )
+        }
+        // LOADING //
+        
         return (
-            <div className='container py-2'>
+            <div className='container'>
+                <div className="container border rounded mb-2 px-2 py-1">
+                    <MDBBtn color='deep-purple' className='white-text'>
+                        <MDBIcon icon="upload" className='mr-2' />
+                        Upload A Movie
+                    </MDBBtn>
+                </div>
+
                 <MDBTable hover responsive>
                     <MDBTableHead color='dark'>
                         <tr>

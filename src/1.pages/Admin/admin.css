@@ -1,11 +1,12 @@
 .sidebar {
+    background-color: rgb(32, 32, 32);
     margin: 0;
     padding: 0;
     width: 200px;
-    background-color: rgb(32, 32, 32);
     position: fixed;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
+    border-bottom-right-radius: 4rem;
     transition: .3s ease-in-out;
     box-shadow: 0 2px 5px 0 rgba(10, 10, 10, 0.4), 0 2px 10px 0 rgba(0, 0, 0, 0.25);
 }
@@ -13,15 +14,14 @@
 /* Sidebar links */
 .sidebar .item-bro {
     color: black;
-    display: block;
-    margin: 6px 16px;
+    padding: 8px 16px;
+    margin: 6px 18px;
     text-decoration: none;
     font-weight: bold;
     cursor: pointer;
 }
-
 .sidebar span {
-    margin-left: 8px;
+    margin-left: 10px;
 }
 
 /* Links on mouse-over */
@@ -29,33 +29,44 @@
     background-color: rgb(224, 224, 224);
 }
 
-/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+/* ADMIN CONTENT */
 .admin-content {
     margin-left: 200px;
-    background-color: whitesmoke;
-    transition: .3s ease-in-out;
+    transition: .25s ease-in-out;
 }
+/* ADMIN CONTENT */
 
-/* On screens that are less than 768px wide, make the sidebar into a topbar */
+/* On screens that are less than 768px wide, Do Something */
 @media screen and (max-width: 768px) {
     .sidebar {
-        width: 80px;
-    }
-
-    .sidebar .item-bro {
-        font-size: 18px;
-        padding: 7.5px 5px;
+        width: 75px;
     }
 
     .admin-content {
-        margin-left: 80px;
+        margin-left: 75px;
         background-color: whitesmoke;
     }
 }
+/* On screens that are less than 768px wide, Do Something */
 
 
-
+/* ARTIST CONTENT */
 .img-artist:hover{
     opacity: 90%;
     background-color: #c4c4c4;
 }
+/* ARTIST CONTENT */
+
+
+/* GENRE CONTENT */
+.genre-pill {
+    color: white;
+    width: 12rem;
+    margin: .5% .75%;
+    padding: 2px;
+    padding-left: 15px;
+}
+.genre-pill .genre-label {
+    padding-top: 6px;
+}
+/* GENRE CONTENT */

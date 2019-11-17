@@ -78,8 +78,8 @@ class App extends Component {
             >
               <div className={this.getPathDepth(location) - this.state.prevDepth >= 0 ? 'left' : 'right'} >
                 <Switch location={location}>
-                  <Route component={Home} path='/' exact />
-                  <Route component={Home} path='/home' exact />
+                  <Route component={Home} path={'/'} exact />
+                  <Route component={Home} path={'/home'} exact />
                   <Route component={Login} path='/login' exact />
                   <Route component={Signup} path='/signup' exact />
                   <Route component={EmailVerification} path='/emailverification' exact />

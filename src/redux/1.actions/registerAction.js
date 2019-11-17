@@ -20,23 +20,24 @@ export const userSignup = (signupObject) => {
             password: signupObject.password,
             email: signupObject.email
         }).then((res) => {
-                dispatch({
-                    type: REGISTER_SUCCESS,
-                    payload: signupObject.email
-                })
-            }).catch((err) => {
-                dispatch({
-                    type: REGISTER_FAILED
-                })
-                if (err.response.data === 'Email already used for another account!') {
-                    swal({
-                        title: "Signup Failed",
-                        text: err.response.data,
-                        icon: "warning"
-                    })
-                } else {
-                    console.log(err.response)
-                }
+            dispatch({
+                type: REGISTER_SUCCESS,
+                payload: signupObject.email
             })
+        }).catch((err) => {
+            console.log(err.response)
+            dispatch({
+                type: REGISTER_FAILED
+            })
+            if (err.response.data === 'email used') {
+                swal({
+                    title: "Signup Failed",
+                    text: "Email is Already Used by Another User",
+                    icon: "warning"
+                })
+            } else {
+                console.log(err.response)
+            }
+        })
     }
 }

@@ -32,11 +32,11 @@ class ManageGenre extends Component {
     renderAllGenre = () => {
         return this.state.genreData.map(val => {
             return (
-                <MDBListGroupItem key={val.id} className='rounded-pill mx-1 my-2 p-1 pl-3 bg-dark white-text justify-content-between'>
-                    {val.genreName}
+                <MDBListGroupItem key={val.id} className='genre-pill rounded-pill bg-dark'>
+                    <label className='genre-label'>{val.genreName}</label>
                     <MDBBtn
                         color='transparent'
-                        className='py-0 px-2 ml-3 grey-text rounded-circle font-weight-bold'
+                        className='py-0 px-2 grey-text rounded-circle font-weight-bold float-right'
                         onClick={() => this.deleteGenre(val.id)}
                     >
                             x
@@ -76,13 +76,16 @@ class ManageGenre extends Component {
 
     render() {
         return (
-            <div className='container py-2'>
-                <div className="card">
-                    <MDBBtn color='deep-purple' className='white-text py-2 mx-5 mt-4' onClick={() => this.setState({modalOpen: true})}>
-                        <MDBIcon icon="plus" className='mr-3' />
+            <div className='container'>
+                <div className="container border rounded mb-2 px-2 py-1">
+                    <MDBBtn color='deep-purple' className='white-text' onClick={() => this.setState({ modalOpen: true })}>
+                        <MDBIcon icon="plus" className='mr-2' />
                         ADD GENRE
                     </MDBBtn>
-                    <div className="row px-5 py-4 d-flex justify-content-between">
+                </div>
+
+                <div className="card">
+                    <div className="row px-5 py-4 d-flex">
                         {this.renderAllGenre()}
                     </div>
                 </div>

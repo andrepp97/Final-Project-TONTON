@@ -206,7 +206,7 @@ class ManageUser extends Component {
 
     render() {
         return (
-            <div className='container py-2'>
+            <div className='container'>
                 <MDBTable hover responsive>
                     <MDBTableHead color='dark'>
                         <tr>

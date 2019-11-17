@@ -11,8 +11,14 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 // LOGIN //
 
+// GENERAL //
 export const USER_LOGOUT = 'USER_LOGOUT';
-
 export const IS_LOADING = 'IS_LOADING';
 export const NOT_LOADING = 'NOT_LOADING';
 export const NAV_ITEM_CHANGE = 'NAV_ITEM_CHANGE';
+// GENERAL //
+
+// MOVIES //
+export const ON_MOVIE_PLAY = 'ON_MOVIE_PLAY';
+export const CALC_MOVIE_VIEWS = 'CALC_MOVIE_VIEWS';
+// MOVIES //

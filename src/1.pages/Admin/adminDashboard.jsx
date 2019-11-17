@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
-import { MDBListGroup, MDBListGroupItem, MDBIcon, MDBCard } from 'mdbreact'
+import { MDBListGroup, MDBListGroupItem, MDBIcon, MDBCard, MDBBtn, MDBModal, MDBModalHeader } from 'mdbreact'
 import windowSize from 'react-window-size'
 import Scroll from 'react-scroll'
 import ReactTooltip from 'react-tooltip'
 
 import { navItemChange } from '../../redux/1.actions'
-import Logo from '../../img/tonton.png'
 import './admin.css'
 
 // IMPORT ADMIN PAGES //
@@ -24,7 +23,8 @@ class adminDashoard extends Component {
     _isMounted = false
 
     state = {
-        selectedTab: 'Users'
+        selectedTab: 'Users',
+        modalOpen: false
     }
 
     // LIFECYCLE //
@@ -44,25 +44,56 @@ class adminDashoard extends Component {
         if (this.props.roleUser === 'User' || this.props.name === '') {
             return <Redirect to='/home' />
         }
-
+        
         return (
             <div className='page'>
+            {/* TOOLTIP & MODAL */}
+                <ReactTooltip html={true} multiline={true} />
+                {/* MODAL USER */}
+                <MDBModal
+                    isOpen={this.state.modalOpen}
+                    toggle={() => this.setState({ modalOpen: false })}
+                    side
+                    size="sm"
+                    position="top-left"
+                >
+                    <MDBModalHeader toggle={() => this.setState({ modalOpen: false })}>
+                        <h5>{this.props.name}</h5>
+                        <span className='grey-text font-small'>{this.props.roleUser}</span>
+                    </MDBModalHeader>
+                </MDBModal>
+                {/* MODAL USER */}
+            {/* TOOLTIP & MODAL */}
+
                 <div className="sidebar">
-                    {
-                        this.props.windowWidth < 752
-                        ?
-                        <img src={Logo} alt="TONTON.ID" className="img-fluid px-2" />
-                        :
-                        <img src={Logo} alt="TONTON.ID" className="img-fluid my-n3 px-3" />
-                    }
-                    <MDBListGroup className="list-group-flush mt-3">
+                    <div className="container text-center white-text py-4">
                         {
-                            this.props.windowWidth < 752
+                            this.props.windowWidth < 769
+                            ?
+                            <MDBBtn color='transparent'
+                                    className='white-text rounded-circle mb-4'
+                                    onClick={() => this.setState({modalOpen:true})}
+                            >
+                                <MDBIcon icon="user-tie" />
+                            </MDBBtn>
+                            :
+                            <>
+                                <MDBIcon icon="user-tie" size='3x' />
+                                <div className='mt-2'>
+                                    <p style={{fontSize: '16px'}}>{this.props.name}</p>
+                                    <p className='mt-n3 grey-text font-small'>{this.props.roleUser}</p>
+                                </div>
+                            </>
+                        }
+                    </div>
+  
+                    <MDBListGroup className="list-group-flush">
+                        {
+                            this.props.windowWidth < 769
                             ?
                             <>
-                                <ReactTooltip place="right" />
                                 <MDBListGroupItem 
-                                    className='item-bro rounded px-3'
+                                    className='item-bro rounded-pill w-100'
                                     data-tip="Users"
                                     onClick={() => this.setState({selectedTab: 'Users'})}
                                     active = {this.state.selectedTab === 'Users' ? true : false}
@@ -70,7 +101,7 @@ class adminDashoard extends Component {
                                     <MDBIcon icon="user"/>
                                 </MDBListGroupItem>
                                 <MDBListGroupItem 
-                                    className='item-bro rounded px-3'
+                                    className='item-bro rounded-pill w-100'
                                     data-tip="Movies"
                                     onClick={() => this.setState({selectedTab: 'Movies'})}
                                     active = {this.state.selectedTab === 'Movies' ? true : false}
@@ -78,7 +109,7 @@ class adminDashoard extends Component {
                                     <MDBIcon icon="film"/>
                                 </MDBListGroupItem>
                                 <MDBListGroupItem
-                                    className='item-bro rounded px-3'
+                                    className='item-bro rounded-pill w-100'
                                     data-tip="Genres"
                                     onClick={() => this.setState({selectedTab: 'Genres'})}
                                     active = {this.state.selectedTab === 'Genres' ? true : false}
@@ -86,7 +117,7 @@ class adminDashoard extends Component {
                                     <MDBIcon icon="stream"/>
                                 </MDBListGroupItem>
                                 <MDBListGroupItem
-                                    className='item-bro rounded px-3'
+                                    className='item-bro rounded-pill w-100'
                                     data-tip="Artists"
                                     onClick={() => this.setState({selectedTab: 'Artists'})}
                                     active = {this.state.selectedTab === 'Artists' ? true : false}
@@ -132,15 +163,15 @@ class adminDashoard extends Component {
                         }
                     </MDBListGroup>
 
-                    <Link to='/' style={{bottom:10, position:'fixed', textDecoration:'none'}}>
-                        <MDBListGroupItem className='item-bro py-1 px-3' data-tip={this.props.windowWidth < 752 ? 'Main Website' : null}>
+                    <Link to='/' style={{bottom:25, position:'fixed', textDecoration:'none'}}>
+                        <MDBListGroupItem className='item-bro rounded-circle px-2 py-1' data-tip='Main Website'>
                             <MDBIcon icon="chevron-circle-left" />
-                                {this.props.windowWidth < 752 ? null : <span>Main Website</span>}
                         </MDBListGroupItem>
                     </Link>
                 </div>
 
-                <div className="admin-content p-5">
+                {/* ADMIN CONTENT */}
+                <div className="admin-content px-2 py-3">
                     <div className='container mb-5'>
                         <MDBCard className='text-center'>
                             <h5 className='font-weight-bold text-uppercase my-3 px-2'>
@@ -155,6 +186,7 @@ class adminDashoard extends Component {
                     {this.state.selectedTab === 'Artists' ? <ManageArtist /> : null}
                     {/* ADMIN SWITCH CONTENT */}
                 </div>
+                {/* ADMIN CONTENT */}
             </div>
         )
     }

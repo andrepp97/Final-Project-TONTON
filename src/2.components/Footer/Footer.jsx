@@ -1,12 +1,11 @@
 import React from "react"
 import {connect} from 'react-redux'
 import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdbreact"
-import windowSize from 'react-window-size'
 import Logo from '../../img/tonton.png'
 
 
 const Footer = (props) => {
-    if (props.activeTab === 'PAYMENT') {
+    if (props.activeTab === 'PAYMENT' || props.activeTab === 'ADMIN') {
         return null
     }
 
@@ -14,11 +13,6 @@ const Footer = (props) => {
         <MDBFooter
             color="black"
             className="font-small pt-5 pb-3"
-            style={
-                props.activeTab === 'ADMIN'
-                ? props.windowWidth < 752 ? {marginLeft: '80px'} : {marginLeft: '200px'}
-                : {marginLeft: '0px'}
-            }
         >
             <MDBContainer className="text-center text-md-left">
                 <MDBRow>
@@ -60,7 +54,7 @@ const Footer = (props) => {
             </MDBContainer>
             <div className="footer-copyright text-center py-3">
                 <MDBContainer className='border-top border-bottom py-4 w-100'>
-                    &copy; {new Date().getFullYear()} Copyright by
+                    &copy; 2019 Copyright by
                     <a href="http://andreputerap.firebaseapp.com" target='_blank' rel="noopener noreferrer"> Andre Putera Pratama</a>
                 </MDBContainer>
             </div>
@@ -74,4 +68,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(windowSize(Footer));
+export default connect(mapStateToProps)(Footer);

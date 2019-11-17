@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import NumberFormat from 'react-number-format'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {urlApi} from '../../3.helpers/database'
 import {
     MDBTable, MDBTableBody, MDBTableHead, MDBBtn,
@@ -18,8 +18,15 @@ class MyBills extends Component {
     componentDidMount() {
         window.scrollTo(0,0)
         this.getUserBills()
+        this.cobaData()
     }
     // LIFECYCLE //
+
+    cobaData = () => {
+        fetch(urlApi + 'admin/getAllGenre')
+            .then(response => response.json())
+            .then(data => console.log(data));
+    }
 
     // GET DATA //
     getUserBills = () => {
@@ -83,9 +90,13 @@ class MyBills extends Component {
 
 
     render() {
+        if (!this.props.username) {
+            return <Redirect to='/' />
+        }
+
         if (this.state.userBills.length < 1) {
             return (
-                <div className="badge-dark page py-5">
+                <div className="page main-backdrop py-5">
                     <div className="container py-5 text-center">
                         <img src={noData} height="360px" alt="No Data" />
                         <h5 className='white-text my-4'>You have no Bills for now.</h5>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Scroll from 'react-scroll'
 import { connect } from "react-redux"
 import { Redirect } from "react-router-dom"
 import { urlApi } from '../../3.helpers/database'
+import { navItemChange } from '../../redux/1.actions'
+import { onMoviePlay, calcMovieViews } from "../../redux/1.actions"
 
 // Video-React //
 import "../../../node_modules/video-react/dist/video-react.css"
@@ -20,16 +21,15 @@ class Play extends Component {
     _isMounted = false
 
     state = {
-        movieUrl: '',
-        moviePoster: ''
+        movieData: {}
     }
 
     // LIFECYCLE //
     componentDidMount() {
         this._isMounted = true
         scroll.scrollToTop()
-
-        this.getMovieUrl()
+        this.props.navItemChange('PLAY')
+        this.getMovieData()
     }
 
     componentWillUnmount() {
@@ -37,35 +37,29 @@ class Play extends Component {
     }
     // LIFECYCLE //
 
-    getMovieUrl = () => {
-        const idMov = this.props.match.params.idMov
 
-        axios.post(urlApi + 'movie/getMovieUrl', {
-            idMov
-        }).then(res => {
-            if (this._isMounted) {
-                this.setState({ movieUrl: res.data.filePath, moviePoster: res.data.poster })
-            }
-        }).catch(err => {
-            console.log(err)
-        })
+    getMovieData = () => {
+        const idMov = this.props.match.params.idMov
+        const idUser = this.props.id
+        this.props.onMoviePlay(idMov)
+        this.props.calcMovieViews(idMov, idUser)
     }
     
 
     render() {
-        if (this.props.name === '') {
+        if (!this.props.username) {
             return <Redirect to='/' />
         }
         
         return (
-            <div>
-                <h3 className='pb-5 mb-0 btn-deep-purple'>&nbsp;</h3>
+            <div className='badge-dark py-5'>
+                {/* <div className='badge-dark py-4'>&nbsp;</div> */}
                 <Player
-                    src={urlApi.slice(0,urlApi.length-1) + this.state.movieUrl}
-                    poster={this.state.moviePoster}
+                    src={urlApi.slice(0,urlApi.length-1) + this.props.movieUrl}
+                    poster={this.props.moviePoster}
                     fluid={false}
-                    width={window.innerWidth - (1 / 100 * window.innerWidth)}
-                    height={window.innerHeight - (12.5 / 100 * window.innerHeight)}
+                    width={window.innerWidth - (1.25 / 100 * window.innerWidth)}
+                    height={window.innerHeight - (10 / 100 * window.innerHeight)}
                     playsInline
                     autoPlay
                     track
@@ -82,13 +76,15 @@ class Play extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({user, movieGlobal}) => {
     return {
-        id: state.user.id,
-        name: state.user.username,
-        role: state.user.role,
-        email: state.user.email
+        ...user,
+        ...movieGlobal
     }
 }
 
-export default connect(mapStateToProps)(Play)
+export default connect(mapStateToProps, {
+    navItemChange,
+    onMoviePlay,
+    calcMovieViews
+})(Play)

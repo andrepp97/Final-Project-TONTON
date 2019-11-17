@@ -83,7 +83,7 @@ export const keepLogin = (token) => {
             })
             .catch(err => {
                 localStorage.removeItem('token')
-                console.log(err)
+                console.log(err.response)
                 dispatch({
                     type: USER_LOGOUT
                 })

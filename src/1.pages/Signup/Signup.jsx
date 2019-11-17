@@ -100,11 +100,11 @@ class Signup extends Component {
 
 
     render() {
-        if (this.props.username !== '') {
-            return <Redirect to='/home'></Redirect>
-        }
         if (this.props.success) {
             return <Redirect to={`/emailverification?email=${this.props.emailSuccess}`} />
+        }
+        if (this.props.username !== '') {
+            return <Redirect to='/home'></Redirect>
         }
 
         return (

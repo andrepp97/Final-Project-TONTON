@@ -17,12 +17,14 @@ class allCast extends Component {
 
     state = {
         castData : [],
-        itemsPerPage: 25,
-        activePage: 1
+        itemsPerPage: 30,
+        activePage: 1,
+        isLoading: false
     }
 
     // PAGINATION PAGE CHANGE //
     pageChange = (action) => {
+        this.setState({isLoading: true})
         let currentPage = this.state.activePage
 
         if (action === 'next') {
@@ -39,7 +41,7 @@ class allCast extends Component {
         }).then(res => {
             if (this._isMounted) {
                 console.log(res.data)
-                this.setState({ castData: res.data })
+                this.setState({ castData: res.data, isLoading: false })
             }
             scroll.scrollToTop()
         }).catch(err => {
@@ -85,7 +87,7 @@ class allCast extends Component {
     renderAllCast = () => {
         let jsx = this.state.castData.map(val => {
             return (
-                <div key={val.id} style={{ width: "12rem" }} className='card rounded my-4 mx-4'>
+                <div key={val.id} style={{ width: "11rem" }} className='card rounded my-3 mx-3'>
                     <Link to={`/cast-details/${val.id}`} className='text-decoration-none rounded text-dark img-artist'>
                         <img className="img-fluid rounded-top opacity-90" src={val.image} alt={val.castName} />
                         <h6 className='text-center font-weight-bold pt-2 px-1'>{val.castName}</h6>
@@ -100,7 +102,7 @@ class allCast extends Component {
 
     render() {
         // LOADING //
-        if (this.state.castData.length < 1) {
+        if (!this._isMounted || this.state.isLoading) {
             return <LoadingScreen />
         }
         // LOADING //
@@ -118,9 +120,8 @@ class allCast extends Component {
                 </div>
 
                 <div className="container-fluid pb-5">
-
                     {/* RENDER ALL CAST */}
-                    <div className="row justify-content-center mb-5 px-5">
+                    <div className="row justify-content-center mb-5 px-3">
                         {this.renderAllCast()}
                     </div>
                     {/* RENDER ALL CAST */}
@@ -140,11 +141,11 @@ class allCast extends Component {
                                             </MDBPageNav>
                                         </MDBPageItem>
                                         :
-                                            <MDBPageItem className='mx-1' onClick={() => this.pageChange('prev')}>
-                                                <MDBPageNav aria-label="Previous">
-                                                    <span aria-hidden="true">Previous</span>
-                                                </MDBPageNav>
-                                            </MDBPageItem>
+                                        <MDBPageItem className='mx-1' onClick={() => this.pageChange('prev')}>
+                                            <MDBPageNav aria-label="Previous">
+                                                <span aria-hidden="true">Previous</span>
+                                            </MDBPageNav>
+                                        </MDBPageItem>
                                     }
 
                                     {
@@ -152,8 +153,8 @@ class allCast extends Component {
                                         ?
                                         null
                                         :
-                                        <MDBPageItem className='mx-1'>
-                                            <MDBPageNav>{this.state.activePage - 1}</MDBPageNav>
+                                        <MDBPageItem className='px-3 py-1'>
+                                            {this.state.activePage - 1}
                                         </MDBPageItem>
                                     }
 
@@ -171,14 +172,14 @@ class allCast extends Component {
                                         </MDBPageItem>
                                         :
                                         <>
-                                        <MDBPageItem className='mx-1'>
-                                            <MDBPageNav>{this.state.activePage + 1}</MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem className='mx-1' onClick={() => this.pageChange('next')}>
-                                            <MDBPageNav aria-label="Previous">
-                                                <span aria-hidden="true">Next</span>
-                                            </MDBPageNav>
-                                        </MDBPageItem>
+                                            <MDBPageItem className='px-3 py-1'>
+                                                {this.state.activePage + 1}
+                                            </MDBPageItem>
+                                            <MDBPageItem className='mx-1' onClick={() => this.pageChange('next')}>
+                                                <MDBPageNav aria-label="Next">
+                                                    <span aria-hidden="true">Next</span>
+                                                </MDBPageNav>
+                                            </MDBPageItem>
                                         </>
                                     }
                                 </MDBPagination>

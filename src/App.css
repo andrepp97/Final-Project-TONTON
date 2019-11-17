@@ -5,6 +5,7 @@
     font-family: 'Quicksand',
     sans-serif;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box ;
 }
 
 .wallpaper {
@@ -20,7 +21,7 @@
     background-attachment: fixed;
 }
 .main-backdrop {
-    background: linear-gradient(rgba(24, 24, 24, 0.9), rgba(4, 4, 4));
+    background: url('./img/trianglify.png');
     background-size: cover;
     background-attachment: fixed;
 }

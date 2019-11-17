@@ -16,7 +16,7 @@ class Jumbotron extends Component {
                             <MDBCol style={{ transform: 'translateY(100%)' }}>
                                 <MDBCardTitle className="h1-responsive px-1 pt-5 mb-4">Upgrade to Premium and Enjoy All Movies</MDBCardTitle>
                                 {
-                                    this.props.userObject.username === '' && this.props.userObject.role === ''
+                                    this.props.userObject.username === ''
                                     ?
                                         <Link to='/login' style={{ outline: 'none' }}>
                                             <MDBBtn color="deep-purple" className="p-3">
@@ -26,16 +26,8 @@ class Jumbotron extends Component {
                                             </MDBBtn>
                                         </Link>
                                     :
-                                    this.props.userObject.role !== 'User'
+                                    this.props.userObject.role === 'User'
                                     ?
-                                        <Link to='/admin-dashboard' style={{ outline: 'none' }}>
-                                            <MDBBtn color="deep-purple" className="p-3">
-                                                <span style={{ letterSpacing: '1px' }} className='white-text'>
-                                                    Go To Dashboard <MDBIcon icon="play-circle" className='ml-2' />
-                                                </span>
-                                            </MDBBtn>
-                                        </Link>
-                                    :
                                         <Link to='/subscription' style={{ outline: 'none' }}>
                                             <MDBBtn color="deep-purple" className="p-3">
                                                 <span style={{ letterSpacing: '1px' }} className='white-text'>
@@ -43,6 +35,15 @@ class Jumbotron extends Component {
                                                 </span>
                                             </MDBBtn>
                                         </Link>
+                                    :
+                                        <Link to='/admin-dashboard' style={{ outline: 'none' }}>
+                                            <MDBBtn color="deep-purple" className="p-3">
+                                                <span style={{ letterSpacing: '1px' }} className='white-text'>
+                                                    Go To Dashboard <MDBIcon icon="play-circle" className='ml-2' />
+                                                </span>
+                                            </MDBBtn>
+                                        </Link>
+                                        
                                 }
                             </MDBCol>
                         </MDBCol>
