@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Scroll from 'react-scroll'
 import { connect } from "react-redux"
 import { Redirect } from "react-router-dom"
 import { urlApi } from '../../3.helpers/database'
@@ -14,8 +13,6 @@ import {
 } from 'video-react'
 // Video-React //
 
-let scroll = Scroll.animateScroll
-
 
 class Play extends Component {
     _isMounted = false
@@ -27,7 +24,7 @@ class Play extends Component {
     // LIFECYCLE //
     componentDidMount() {
         this._isMounted = true
-        scroll.scrollToTop()
+        window.scrollTo(0,0)
         this.props.navItemChange('PLAY')
         this.getMovieData()
     }

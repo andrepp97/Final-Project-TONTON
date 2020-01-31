@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import Axios from 'axios'
 import windowSize from 'react-window-size'
-import Scroll from 'react-scroll'
 import ReactTooltip from 'react-tooltip'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -11,8 +10,6 @@ import { MDBBtn, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody, MDBAlert } fro
 
 import { urlApi } from '../../3.helpers/database'
 import { navItemChange, calcUserSubs } from '../../redux/1.actions'
-
-let scroll = Scroll.animateScroll
 
 
 class movieDetails extends Component {
@@ -31,7 +28,7 @@ class movieDetails extends Component {
     // LIFECYCLE //
     componentDidMount(){
         this._isMounted = true
-        scroll.scrollToTop()
+        window.scrollTo(0,0)
 
         // REDUX ACTIONS //
         this.props.calcUserSubs(this.props.userObject.id)

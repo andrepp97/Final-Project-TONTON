@@ -6,9 +6,6 @@ import { connect } from 'react-redux'
 import { urlApi } from '../../3.helpers/database'
 import { navItemChange } from '../../redux/1.actions'
 import { MDBCardImage, MDBCard, MDBAlert } from "mdbreact"
-import Scroll from 'react-scroll'
-
-let scroll = Scroll.animateScroll
 
 
 class castDetails extends Component {
@@ -23,7 +20,7 @@ class castDetails extends Component {
     // LIFECYCLE //
     componentDidMount() {
         this._isMounted = true
-        scroll.scrollToTop()
+        window.scrollTo(0, 0)
 
         this.getCastData()
         this.getCastMovies()

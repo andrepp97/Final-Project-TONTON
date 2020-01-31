@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Scroll from 'react-scroll'
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import { MDBPageItem, MDBPageNav, MDBRow, MDBCol, MDBPagination } from "mdbreact"
@@ -11,8 +10,6 @@ import { navItemChange } from '../../redux/1.actions'
 // IMPORT COMPONENTS //
 import LoadingScreen from '../../2.components/Loadings/loadingScreen'
 import Carousel from '../../2.components/Carousel/Carousel'
-
-let scroll = Scroll.animateScroll
 
 
 class allMovies extends Component {
@@ -46,7 +43,7 @@ class allMovies extends Component {
                 console.log(res.data)
                 this.setState({ moviePoster: res.data })
             }
-            scroll.scrollToTop()
+            window.scrollTo(0,0)
         }).catch(err => {
             console.log(err)
         })
@@ -56,7 +53,7 @@ class allMovies extends Component {
     // LIFECYCLE //
     componentDidMount() {
         this._isMounted = true
-        scroll.scrollToTop()
+        window.scrollTo(0, 0)
         
         this.getMoviePosterNew()
         this.getMoviePoster()

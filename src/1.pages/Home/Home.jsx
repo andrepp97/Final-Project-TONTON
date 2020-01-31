@@ -7,9 +7,6 @@ import { urlApi } from '../../3.helpers/database'
 import { navItemChange, calcUserSubs } from '../../redux/1.actions'
 import Jumbotron from '../../2.components/Jumbotron/Jumbotron'
 import Carousel from '../../2.components/Carousel/Carousel'
-import Scroll from 'react-scroll'
-
-let scroll = Scroll.animateScroll
 
 
 class Home extends Component {
@@ -24,7 +21,7 @@ class Home extends Component {
     // LIFECYCLE //
     componentDidMount() {
         this._isMounted = true
-        scroll.scrollToTop()
+        window.scrollTo(0,0)
 
         // REDUX ACTIONS //
         this.props.calcUserSubs(this.props.id)

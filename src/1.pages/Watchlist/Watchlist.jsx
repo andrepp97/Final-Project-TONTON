@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import ReactTooltip from 'react-tooltip'
-import Scroll from 'react-scroll'
 import moment from 'moment'
 import Axios from 'axios'
 import { connect } from 'react-redux'
@@ -12,8 +11,6 @@ import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from 'mdbreact'
 
 // Import IMG //
 import noData from "../../img/illustrations/no_data.svg"
-
-let scroll = Scroll.animateScroll
 
 
 class Watchlist extends Component {
@@ -27,7 +24,7 @@ class Watchlist extends Component {
     // LIFECYCLE //
     componentDidMount() {
         this._isMounted = true
-        scroll.scrollToTop()
+        window.scrollTo(0,0)
 
         this.getWatchlistData()
         this.props.navItemChange('WATCHLIST')

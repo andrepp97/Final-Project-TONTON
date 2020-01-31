@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Scroll from 'react-scroll'
 import axios from 'axios'
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
@@ -7,9 +6,6 @@ import { urlApi } from '../../3.helpers/database'
 import { navItemChange } from '../../redux/1.actions'
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow } from "mdbreact"
 import LoadingScreen from '../../2.components/Loadings/loadingScreen'
-
-
-let scroll = Scroll.animateScroll
 
 
 class allCast extends Component {
@@ -43,7 +39,7 @@ class allCast extends Component {
                 console.log(res.data)
                 this.setState({ castData: res.data, isLoading: false })
             }
-            scroll.scrollToTop()
+            window.scrollTo(0,0)
         }).catch(err => {
             console.log(err)
         })
@@ -54,7 +50,7 @@ class allCast extends Component {
     // LIFECYCLE //
     componentDidMount() {
         this._isMounted = true
-        scroll.scrollToTop()
+        window.scrollTo(0, 0)
         
         this.getAllCast()
         this.props.navItemChange('CAST')

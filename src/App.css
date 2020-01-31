@@ -8,6 +8,10 @@
     -webkit-box-sizing: border-box ;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .wallpaper {
     background: linear-gradient(rgba(0, 0, 0, 0.875), rgba(0, 0, 0, 0.98)),
         url('./img/background2.jpg');
