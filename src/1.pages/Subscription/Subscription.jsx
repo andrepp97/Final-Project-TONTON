@@ -3,21 +3,28 @@ import Axios from 'axios'
 import { urlApi } from '../../3.helpers/database'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { MDBBtn } from 'mdbreact'
-import { navItemChange } from '../../redux/1.actions'
+import { MDBBtn, MDBModalBody, MDBModal, MDBModalFooter, MDBModalHeader } from 'mdbreact'
+import { ToastContainer, toast, Flip } from 'react-toastify'
+import { navItemChange, calcUserSubs } from '../../redux/1.actions'
 import './Subs.css'
 
 
 class Subscription extends Component {
     state = {
         premiumPrice: null,
-        create_transaction: false
+        create_transaction: false,
+        modalOpen: false
     }
 
     // LIFECYCLE //
     componentDidMount() {
         window.scrollTo(0, 0);
+
+        // REDUX ACTIONS //
+        this.props.calcUserSubs(this.props.id)
         this.props.navItemChange('')
+        // REDUX ACTIONS //
+
         this.getPriceData()
     }
     // LIFECYCLE //
@@ -34,7 +41,7 @@ class Subscription extends Component {
     }
     // GET DATA //
 
-    // USER UPGRADE //
+    // USER BEHAVIOR //
     onUserUpgrade = () => {
         Axios.post(urlApi + 'user/getUserBillById', {
             idUser: this.props.id
@@ -70,7 +77,19 @@ class Subscription extends Component {
             console.log(err)
         })
     }
-    // USER UPGRADE //
+
+    userCancelPlan = () => {
+        Axios.post(urlApi + 'user/userCancelPlan', {
+            idUser: this.props.id
+        }).then(res => {
+            toast.error('You have canceled your plan, thank you for trusting us.')
+            this.setState({modalOpen: false})
+            this.props.calcUserSubs(this.props.id)
+        }).catch(err => {
+            console.log(err.response)
+        })
+    }
+    // USER BEHAVIOR //
 
     
     render() {
@@ -82,9 +101,75 @@ class Subscription extends Component {
             window.location = `/user-payment`
         }
 
+        if (this.props.subsName === 'Premium') {
+            return (
+                <div className="wallpaper2 page" style={{height:'100vh'}}>
+                    <h1 className='mb-5'>&nbsp;</h1>
+                    <div className="container py-5">
+                        <div className="row">
+                            <div className='card col-md-8 offset-md-2 text-center py-4'>
+                                <h1>{this.props.subsName} User</h1>
+                                <h5 className='border-top mx-5 py-3'>
+                                    {
+                                        this.props.remaining >= 24
+                                        ?
+                                        Math.floor(this.props.remaining / 24) + ' Days Remaining'
+                                        :
+                                        Math.floor(this.props.remaining) + ' Hours Remaining'
+                                    }
+                                </h5>
+                                <MDBBtn
+                                    color='red'
+                                    className='white-text mx-5'
+                                    onClick={() => this.setState({modalOpen: true})}
+                                >
+                                    Cancel Plan
+                                </MDBBtn>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* CANCEL PLAN MODAL */}
+                    <MDBModal isOpen={this.state.modalOpen} toggle={() => this.setState({ modalOpen: false })} centered>
+                        <MDBModalHeader toggle={() => this.setState({ modalOpen: false })}>
+                            Delete Movie
+                    </MDBModalHeader>
+                        <MDBModalBody>
+                            You are about to <b>CANCEL YOUR PREMIUM PLAN</b>.
+                    </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color="light"
+                                onClick={() => this.setState({ modalOpen: false})}
+                            >
+                                Cancel
+                        </MDBBtn>
+                            <MDBBtn color="red"
+                                className='white-text'
+                                onClick={this.userCancelPlan}
+                            >
+                                Yes, I Want To Cancel
+                        </MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModal>
+                    {/* CANCEL PLAN MODAL */}
+                </div>
+            )
+        }
+
         return (
             <div className='wallpaper2 page py-5'>
                 <h6 className='my-5'>&nbsp;</h6>
+                {/* TOAST CONTAINER */}
+                <ToastContainer
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    pauseOnHover={false}
+                    closeButton={false}
+                    transition={Flip}
+                    closeOnClick
+                    draggable
+                />
+                {/* TOAST CONTAINER */}
 
                 <div className='container'>
                     {/* Price Table */}
@@ -123,8 +208,11 @@ class Subscription extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return state.user
+const mapStateToProps = ({user, userSubs}) => {
+    return {
+        ...user,
+        ...userSubs
+    }
 }
 
-export default connect(mapStateToProps, { navItemChange })(Subscription)
+export default connect(mapStateToProps, { navItemChange, calcUserSubs })(Subscription)

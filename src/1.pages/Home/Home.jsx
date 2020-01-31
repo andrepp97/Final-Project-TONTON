@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import { MDBBadge } from 'mdbreact'
 import { urlApi } from '../../3.helpers/database'
-import { navItemChange } from '../../redux/1.actions'
+import { navItemChange, calcUserSubs } from '../../redux/1.actions'
 import Jumbotron from '../../2.components/Jumbotron/Jumbotron'
 import Carousel from '../../2.components/Carousel/Carousel'
 import Scroll from 'react-scroll'
@@ -25,10 +25,15 @@ class Home extends Component {
     componentDidMount() {
         this._isMounted = true
         scroll.scrollToTop()
+
+        // REDUX ACTIONS //
+        this.props.calcUserSubs(this.props.id)
+        this.props.navItemChange('DISCOVER')
+        // REDUX ACTIONS //
+
         
         this.getMoviePosterPopular()
         this.getMoviePosterNew()
-        this.props.navItemChange('DISCOVER')
     }
 
     componentWillUnmount() {
@@ -108,4 +113,9 @@ class Home extends Component {
     }
 }
 
-export default connect(null, { navItemChange })(Home)
+const mapStateToProps = (state) => {
+    return state.user
+}
+
+
+export default connect(mapStateToProps, { navItemChange, calcUserSubs })(Home)

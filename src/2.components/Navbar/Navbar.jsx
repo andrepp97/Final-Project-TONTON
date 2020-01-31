@@ -75,9 +75,6 @@ class AppBar extends Component {
                 <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
                     {/* NAV MENU */}
                     <MDBNavbarNav left style={{fontSize:'14px', letterSpacing:'1px'}}>
-                        <MDBNavItem active={this.props.activeTab === 'DISCOVER' ? true : false}>
-                            <MDBNavLink to='/home'>DISCOVER</MDBNavLink>
-                        </MDBNavItem>
                         <MDBNavItem active={this.props.activeTab === 'MOVIES' ? true : false}>
                             <MDBNavLink to='/movies'>MOVIES</MDBNavLink>
                         </MDBNavItem>
@@ -112,6 +109,9 @@ class AppBar extends Component {
                                     <MDBCard className='mt-n2 pt-3 px-4 mb-3'>
                                         <p className='font-weight-bold'>{this.props.username}</p>
                                         <p className='mt-n2 mr-2 text-dark'>{this.props.email}</p>
+                                        <p className={`badge ${this.props.subsName === 'Free' ? 'badge-dark' : 'badge-secondary'}`}>
+                                            {this.props.subsName} User
+                                        </p>
                                     </MDBCard>
                                 {
                                     this.props.role === 'Admin' || this.props.role === 'Super Admin'
@@ -170,10 +170,11 @@ class AppBar extends Component {
     }
 }
 
-const mapStateToProps = ({user, movieGlobal}) => {
+const mapStateToProps = ({user, movieGlobal, userSubs}) => {
     return {
         ...user,
-        ...movieGlobal
+        ...movieGlobal,
+        ...userSubs
     }
 }
 

@@ -11,6 +11,7 @@ import './admin.css'
 
 // IMPORT ADMIN PAGES //
 import ManageUser from './AdminPage/ManageUser'
+import ManagePayment from './AdminPage/ManagePayment'
 import ManageMovies from './AdminPage/ManageMovies'
 import ManageGenre from './AdminPage/ManageGenre'
 import ManageArtist from './AdminPage/ManageArtist'
@@ -68,7 +69,7 @@ class adminDashoard extends Component {
                 <div className="sidebar">
                     <div className="container text-center white-text py-4">
                         {
-                            this.props.windowWidth < 769
+                            this.props.windowWidth < 800
                             ?
                             <MDBBtn color='transparent'
                                     className='white-text rounded-circle mb-4'
@@ -89,7 +90,7 @@ class adminDashoard extends Component {
   
                     <MDBListGroup className="list-group-flush">
                         {
-                            this.props.windowWidth < 769
+                            this.props.windowWidth < 800
                             ?
                             <>
                                 <MDBListGroupItem 
@@ -99,6 +100,14 @@ class adminDashoard extends Component {
                                     active = {this.state.selectedTab === 'Users' ? true : false}
                                 >
                                     <MDBIcon icon="user"/>
+                                </MDBListGroupItem>
+                                <MDBListGroupItem 
+                                    className='item-bro rounded-pill w-100'
+                                    data-tip="Payment"
+                                    onClick={() => this.setState({selectedTab: 'Payment'})}
+                                    active = {this.state.selectedTab === 'Payment' ? true : false}
+                                >
+                                    <MDBIcon icon="cash-register" />
                                 </MDBListGroupItem>
                                 <MDBListGroupItem 
                                     className='item-bro rounded-pill w-100'
@@ -134,6 +143,14 @@ class adminDashoard extends Component {
                                 >
                                     <MDBIcon icon="user"/>
                                     <span>Users</span>
+                                </MDBListGroupItem>
+                                <MDBListGroupItem
+                                    className='item-bro rounded-pill'
+                                    onClick={() => this.setState({selectedTab: 'Payment'})}
+                                    active = {this.state.selectedTab === 'Payment' ? true : false}
+                                >
+                                    <MDBIcon icon="cash-register" />
+                                    <span>Payment</span>
                                 </MDBListGroupItem>
                                 <MDBListGroupItem
                                     className='item-bro rounded-pill'
@@ -181,6 +198,7 @@ class adminDashoard extends Component {
                     </div>
                     {/* ADMIN SWITCH CONTENT */}
                     {this.state.selectedTab === 'Users' ? <ManageUser /> : null}
+                    {this.state.selectedTab === 'Payment' ? <ManagePayment /> : null}
                     {this.state.selectedTab === 'Movies' ? <ManageMovies /> : null}
                     {this.state.selectedTab === 'Genres' ? <ManageGenre /> : null}
                     {this.state.selectedTab === 'Artists' ? <ManageArtist /> : null}

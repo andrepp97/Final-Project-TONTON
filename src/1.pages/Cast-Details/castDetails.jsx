@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { connect } from 'react-redux'
 import { urlApi } from '../../3.helpers/database'
 import { navItemChange } from '../../redux/1.actions'
-import { MDBCardImage, MDBCard } from "mdbreact"
+import { MDBCardImage, MDBCard, MDBAlert } from "mdbreact"
 import Scroll from 'react-scroll'
 
 let scroll = Scroll.animateScroll
@@ -94,6 +94,12 @@ class castDetails extends Component {
                 )
             })
             return jsx
+        } else {
+            return (
+                <MDBAlert color="danger" className='w-responsive text-center' >
+                    No Movie Data
+                </MDBAlert>
+            )
         }
     }
     // RENDER CAST MOVIES //
@@ -132,7 +138,7 @@ class castDetails extends Component {
                                     {this.state.castData.gender}
                                 </span>
                             </h6>
-                            <p className='text-justify mt-3'>
+                            <p className='text-justify mt-4'>
                                 {this.state.castData.bio}
                             </p>
                         </div>

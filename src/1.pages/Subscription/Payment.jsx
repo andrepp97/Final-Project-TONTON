@@ -40,6 +40,7 @@ class Payment extends Component {
             if (this._isMounted) {
                 this.setState({ userBillData: res.data, dataFetched: true })
             }
+            console.log(res.data)
         }).catch(err => {
             console.log(err)
         })
@@ -104,7 +105,7 @@ class Payment extends Component {
     }
 
     renderUploadFile = () => {
-        if (this.state.userBillData.status === 'WAITING FOR PAYMENT') {
+        if (this.state.userBillData.status === 'WAITING FOR PAYMENT' || this.state.userBillData.status === 'DECLINED') {
             return (
                 <div className="row p-5 black-text">
                     <div className="col-md-6 offset-md-3 text-center">

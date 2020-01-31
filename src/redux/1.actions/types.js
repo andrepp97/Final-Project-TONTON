@@ -12,6 +12,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 // LOGIN //
 
 // GENERAL //
+export const USER_SUBS = 'USER_SUBS';
 export const USER_LOGOUT = 'USER_LOGOUT';
 export const IS_LOADING = 'IS_LOADING';
 export const NOT_LOADING = 'NOT_LOADING';

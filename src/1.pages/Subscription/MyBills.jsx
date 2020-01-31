@@ -4,9 +4,8 @@ import NumberFormat from 'react-number-format'
 import {connect} from 'react-redux'
 import {Link, Redirect} from 'react-router-dom'
 import {urlApi} from '../../3.helpers/database'
-import {
-    MDBTable, MDBTableBody, MDBTableHead, MDBBtn,
-} from 'mdbreact'
+import {MDBTable, MDBTableBody, MDBTableHead, MDBBtn} from 'mdbreact'
+import { calcUserSubs } from '../../redux/1.actions'
 import noData from "../../img/illustrations/no_data.svg"
 
 class MyBills extends Component {
@@ -17,16 +16,10 @@ class MyBills extends Component {
     // LIFECYCLE //
     componentDidMount() {
         window.scrollTo(0,0)
+        this.props.calcUserSubs(this.props.id)
         this.getUserBills()
-        this.cobaData()
     }
     // LIFECYCLE //
-
-    cobaData = () => {
-        fetch(urlApi + 'admin/getAllGenre')
-            .then(response => response.json())
-            .then(data => console.log(data));
-    }
 
     // GET DATA //
     getUserBills = () => {
@@ -81,7 +74,7 @@ class MyBills extends Component {
     // RENDER DATA //
 
     onBillClick = (stat) => {
-        if (stat === 'WAITING FOR PAYMENT') {
+        if (stat === 'WAITING FOR PAYMENT' || stat === 'DECLINED') {
             window.location = '/user-payment'
         } else {
             alert(stat)
@@ -137,8 +130,11 @@ class MyBills extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return state.user
+const mapStateToProps = ({user, userSubs}) => {
+    return {
+        ...user,
+        ...userSubs
+    }
 }
 
-export default connect(mapStateToProps)(MyBills);
+export default connect(mapStateToProps, { calcUserSubs })(MyBills);

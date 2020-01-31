@@ -13,23 +13,22 @@ import NoResults from '../../img/illustrations/no_data.svg'
 
 class SearchResult extends Component {
     // LOCAL VARIABLES //
-    _isMounted = false
-    searchVal: ''
+    _isMounted = false;
+    searchVal: '';
     // LOCAL VARIABLES //
 
     state = {
         searchedMovies: [],
         searchedCast: []
-    }
+    };
 
     // LIFECYCLE //
     componentDidMount() {
-        this._isMounted = true
-        let queryVal = qs.parse(this.props.location.search)
-        this.searchVal = queryVal.q
-        // console.log(this.searchVal)
+        this._isMounted = true;
+        let queryVal = qs.parse(this.props.location.search);
+        this.searchVal = queryVal.q;
 
-        this.getMovieBySearch()
+        this.getMovieBySearch();
         this.getCastBySearch()
     }
 

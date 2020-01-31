@@ -7,10 +7,10 @@ import ReactTooltip from 'react-tooltip'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ToastContainer, toast, Flip } from 'react-toastify'
-import { MDBBtn, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody } from 'mdbreact'
+import { MDBBtn, MDBIcon, MDBModal, MDBModalHeader, MDBModalBody, MDBAlert } from 'mdbreact'
 
 import { urlApi } from '../../3.helpers/database'
-import { navItemChange } from '../../redux/1.actions'
+import { navItemChange, calcUserSubs } from '../../redux/1.actions'
 
 let scroll = Scroll.animateScroll
 
@@ -32,10 +32,14 @@ class movieDetails extends Component {
     componentDidMount(){
         this._isMounted = true
         scroll.scrollToTop()
+
+        // REDUX ACTIONS //
+        this.props.calcUserSubs(this.props.userObject.id)
+        this.props.navItemChange('MOVIES')
+        // REDUX ACTIONS //
         
         this.getMovieData()
         this.checkWatchlist()
-        this.props.navItemChange('MOVIES')
     }
 
     componentWillUnmount() {
@@ -91,6 +95,12 @@ class movieDetails extends Component {
                 )
             })
             return jsx
+        } else {
+            return (
+                <MDBAlert color="danger" className='w-responsive text-center' >
+                    No Cast Data
+                </MDBAlert>
+            )
         }
     }
     // RENDERS //
@@ -217,6 +227,17 @@ class movieDetails extends Component {
                                     </MDBBtn>
                                 </Link>
                                 :
+                                this.state.movieData.type === 'P' && this.props.userSubs.subsName === 'Free'
+                                ?
+                                <Link to='/subscription' style={{outline:'none'}}>
+                                    <MDBBtn color='deep-purple'
+                                            className='white-text font-weight-bold px-4 py-2 ml-auto rounded'
+                                            style={{letterSpacing:'1px'}}
+                                    >
+                                        <MDBIcon icon="play" /><span className='ml-2'>Upgrade to Premium</span>
+                                    </MDBBtn>
+                                </Link>
+                                :
                                 <Link to={`/play/${this.props.match.params.id}`} style={{outline:'none'}}>
                                     <MDBBtn color='deep-purple'
                                             className='white-text font-weight-bold px-4 py-2 ml-auto rounded'
@@ -311,8 +332,9 @@ class movieDetails extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        userObject: state.user
+        userObject: state.user,
+        userSubs: state.userSubs
     }
 }
 
-export default connect(mapStateToProps, { navItemChange }) (windowSize(movieDetails))
+export default connect(mapStateToProps, { navItemChange, calcUserSubs }) (windowSize(movieDetails))

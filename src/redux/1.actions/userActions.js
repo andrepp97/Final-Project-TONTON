@@ -55,7 +55,11 @@ export const userLogin = (userObject) => {
                 dispatch({
                     type: NOT_LOADING
                 })
-                swal('We Are Sorry', "Unable to connect to server, try again later.", "error")
+                if (err.response.data === 'Suspended') {
+                    swal('We Are Sorry', "Your account is being terminated, try contacting admin.", "error")
+                } else if (err.response.data === 'NoResult') {
+                    swal('Login Failed', "Wrong password / username, please try again.", "warning")
+                }
             })
     }
 }
